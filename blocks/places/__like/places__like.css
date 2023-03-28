@@ -1,7 +1,7 @@
 .places__like {
   width: 22px;
   height: 19px;
-  background-image: url(/images/like.png);
+  background-image: url(../../images/like.png);
 }
 
 .places__like:hover {
@@ -10,5 +10,5 @@
 }
 
 .places__like::after {
-  background-image: url(/images/like-active.png);
+  background-image: url(../../images/like-active.png);
 }
