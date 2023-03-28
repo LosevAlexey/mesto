@@ -1,0 +1,19 @@
+.profile__add {
+    margin: 0;
+    border: 1px solid;
+    width: 150px;
+    padding: 14px 64px;
+    font-size: 43px;
+    line-height: 15px;
+}
+
+@media all and (max-width: 900px) {
+  .profile__add {
+    margin: 36px 0 0 0;
+  }
+}
+
+.profile__add:hover {
+  opacity: 0.6;
+  transition: opasity 0.5s;
+}
