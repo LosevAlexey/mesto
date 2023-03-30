@@ -6,7 +6,6 @@
 
 @media all and (max-width: 900px) {
   .profile {
-    display: flex;
     flex-direction: column;
     justify-content: center;
     margin: 38px 0 0 0;

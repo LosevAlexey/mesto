@@ -2,11 +2,12 @@
   font-weight: 400;
   font-size: 18px;
   line-height: 22px;
-  color: #545454;
+  color: rgba(84, 84, 84, 1);
+  margin: 0;
 }
 
 @media all and (max-width: 900px) {
-  .footer {
+  .footer__copyright {
     font-size: 14px;
     line-height: 17px;
 }
