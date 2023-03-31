@@ -10,6 +10,7 @@
     background-position-y: center;
     background-position-x: center;
     cursor: pointer;
+    background-size: unset;
 }
 
 @media all and (max-width: 900px) {

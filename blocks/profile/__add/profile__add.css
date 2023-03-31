@@ -10,6 +10,7 @@
     border-radius: 2px;
     background-color: transparent;
     cursor: pointer;
+    background-size: unset;
 }
 
 @media all and (max-width: 900px) {
