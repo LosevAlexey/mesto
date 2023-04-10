@@ -1,0 +1,9 @@
+.popup-more__container {
+  position: relative;
+}
+
+@media all and (max-width: 900px) {
+  .popup-more__container {
+    height: fit-content;
+  }
+}
