@@ -1,41 +1,36 @@
-const container = document.querySelector('.popup');
-const editbutton = document.querySelector('.profile__edit-button');
-const closeButton = document.querySelector('.popup__close');
-const nameInput = document.querySelector('.popup__input_form_name');
-const descriptionInput = document.querySelector('.popup__input_form_description');
-const form = document.querySelector('.popup__form');
-const author = document.querySelector('.profile__author');
-const description = document.querySelector('.profile__description');
+// Редактирование профиля
+const editProfilePopup = document.querySelector('.popup_type_edit-profile');
+const editProfileOpenButton = document.querySelector('.profile__edit-button');
+const editProfileCloseButton = document.querySelector('.popup__close');
+const editProfileNameInput = document.querySelector('.popup__input_form_name');
+const editProfileDescriptionInput = document.querySelector('.popup__input_form_description');
+const editProfileFormInput = document.querySelector('.popup__form');
+const editProfileAuthor = document.querySelector('.profile__author');
+const editProfileDescription = document.querySelector('.profile__description');
 
-
-
-function openPopup() {
-  container.classList.add("popup_opened");
-}
-
-function fullInput() {
-  nameInput.value = author.textContent;
-  descriptionInput.value = description.textContent;
-  openPopup();
+function openPopup(popupElement) {
+  popupElement.classList.add("popup_opened");
 }
 
 function closePopup() {
-  container.classList.remove("popup_opened");
+  editProfilePopup.classList.remove("popup_opened");
 }
 
+function fullInput() {
+  editProfileNameInput.value = editProfileAuthor.textContent;
+  editProfileDescriptionInput.value = editProfileDescription.textContent;
+  openPopup(editProfilePopup);
+}
 
-editbutton.addEventListener('click', fullInput);
-closeButton.addEventListener('click', closePopup);
+editProfileOpenButton.addEventListener('click', fullInput);
+editProfileCloseButton.addEventListener('click', closePopup);
 
-
-form.addEventListener('submit', (event) => {
+editProfileFormInput.addEventListener('submit', (event) => {
   event.preventDefault();
-  author.textContent = nameInput.value;
-  description.textContent = descriptionInput.value;
-  closePopup();
+  editProfileAuthor.textContent = editProfileNameInput.value;
+  editProfileDescription.textContent = editProfileDescriptionInput.value;
+  closePopup(editProfilePopup);
 });
-
-
 
 const initialCards = [
   {
@@ -64,15 +59,13 @@ const initialCards = [
   }
 ];
 
-
-
+// Добавление карточек
 const placesTemplate = document.getElementById('places-template');
 const placesGrid = document.querySelector('.places');
-const addPlace = document.querySelector('.profile__add');
-const popupPlaces = document.querySelector('.popup-places');
-const editNewPlace = document.querySelector('.popup__form_place');
-const buttonCloseAddPlace =document.querySelector('.popup__close-place');
-
+const addPlacePopup = document.querySelector('.popup_type_places');
+const addPlacePopupOpenButton = document.querySelector('.profile__add');
+const addPlacePopupForm = document.querySelector('.popup__form_place');
+const addPlacePopupCloseButton =document.querySelector('.popup__close-place');
 
 function createPlaceElement(placeDate) {
   const placeElement = placesTemplate.content.querySelector('.places__block').cloneNode(true);
@@ -91,6 +84,7 @@ function createPlaceElement(placeDate) {
   };
   deleteButton.addEventListener('click', handleDelete);
   likebutton.addEventListener('click', handleLike);
+  placeImage.addEventListener('click', OpenPopupSeeImage);
   return placeElement;
 }
 
@@ -103,13 +97,12 @@ initialCards.forEach((place) => {
 });
 
 function openPopupAddPlace() {
-  popupPlaces.classList.add("popup_opened");
+  addPlacePopup.classList.add("popup_opened");
 };
 
 function closePopupAddPlace() {
-  popupPlaces.classList.remove("popup_opened");
+  addPlacePopup.classList.remove("popup_opened");
 };
-
 
 function popupAddPlace(event) {
   event.preventDefault();
@@ -122,34 +115,28 @@ function popupAddPlace(event) {
     image,
   };
   renderPlaceElement(createPlaceElement(placesDate));
-  closePopupAddPlace(editNewPlace);
+  closePopup(addPlacePopupForm);
 };
 
-editNewPlace.addEventListener("submit", popupAddPlace);
-buttonCloseAddPlace.addEventListener('click', closePopupAddPlace);
-addPlace.addEventListener('click', openPopupAddPlace);
+addPlacePopupForm.addEventListener("submit", popupAddPlace);
+addPlacePopupCloseButton.addEventListener('click', closePopupAddPlace);
+addPlacePopupOpenButton.addEventListener('click', openPopupAddPlace);
 
+// Увеличение карочек
+const ImagesPopup = document.querySelector('.popup_type_more');
+const ImagesPopupCloseImageButton = ImagesPopup.querySelector('.popup__close_type_more');
+const ImagesPopupImage = document.querySelector('.popup__image');
+const ImagesPopupLink = document.querySelector('.popup__description');
 
-
-
-
-const popupImages = document.querySelector('.popup-more');
-const seeImage = document.querySelector('.places__image_more');
-const buttonCloseSeeImage = document.querySelector('.popup-more__close');
-
-function OpenPopupSeeImage(data) {
-  const moreImage = popupImages.querySelector('.popup-more__image');
-  const moreLink = popupImages.querySelector('.popup-more__description');
-  moreImage.scr = data.name;
-  moreLink.textContent = data.image;
-  popupImages.classList.toggle("popup_opened");
+function OpenPopupSeeImage() {
+  ImagesPopupImage.alt = this.alt;
+  ImagesPopupImage.src = this.src;
+  ImagesPopupLink.textContent = ImagesPopupImage.alt;
+  openPopup(ImagesPopup);
 };
 
-function closePopupSeeImage() {
-  popupImages.classList.remove("popup_opened");
+function closeImagesPopup() {
+  ImagesPopup.classList.remove("popup_opened");
 };
 
-buttonCloseSeeImage.addEventListener('click', closePopupSeeImage);
-
-seeImage.addEventListener('click', OpenPopupSeeImage);
-
+ImagesPopupCloseImageButton.addEventListener('click', closeImagesPopup);

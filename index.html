@@ -24,60 +24,12 @@
         <button type="button" class="profile__add"></button>
     </section>
     <section class="places">
-<!--         <div class="places__block">
-            <button type="button" class="places__trash" id="trashBotton"></button>
-            <img class="places__image" src="./images/abramtsevo.jpg" alt="Абрамцево">
-            <div class="places__place">
-                <h2 class="places__title">Абрамцево</h2>
-                <button type="button" class="places__like"></button>
-            </div>
-        </div>
-        <div class="places__block">
-            <button type="button" class="places__trash" id="trashBotton"></button>
-            <img class="places__image" src="./images/nalchik.jpg" alt="Нальчик">
-            <div class="places__place">
-                <h2 class="places__title">Нальчик</h2>
-                <button type="button" class="places__like"></button>
-            </div>
-        </div>
-        <div class="places__block">
-            <button type="button" class="places__trash" id="trashBotton"></button>
-            <img class="places__image" src="./images/kolomna.jpg" alt="Коломна">
-            <div class="places__place">
-                <h2 class="places__title">Коломна</h2>
-                <button type="button" class="places__like"></button>
-            </div>
-        </div>
-        <div class="places__block">
-            <button type="button" class="places__trash" id="trashBotton"></button>
-            <img class="places__image" src="./images/elbrus.jpg" alt="Эльбрус">
-            <div class="places__place">
-                <h2 class="places__title">Эльбрус</h2>
-                <button type="button" class="places__like"></button>
-            </div>
-        </div>
-        <div class="places__block">
-            <button type="button" class="places__trash" id="trashBotton"></button>
-            <img class="places__image" src="./images/rostov.jpg" alt="Ростов-на-Дону">
-            <div class="places__place">
-                <h2 class="places__title">Ростов-на-Дону</h2>
-                <button type="button" class="places__like"></button>
-            </div>
-        </div>
-        <div class="places__block">
-            <button type="button" class="places__trash" id="trashBotton"></button>
-            <img class="places__image" src="./images/dvor.jpg" alt="Гостинный Двор">
-            <div class="places__place">
-                <h2 class="places__title">Гостинный Двор</h2>
-                <button type="button" class="places__like"></button>
-            </div>
-        </div> -->
     </section>
   </main>
   <footer class="footer">
     <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
   </footer>
-  <section class="popup">
+  <section class="popup popup_type_edit-profile">
     <div class="popup__container">
       <button type="button" class="popup__close" id="closeBotton"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
@@ -88,7 +40,7 @@
       </form>
     </div>
   </section>
-  <section class="popup popup-places">
+  <section class="popup popup_type_places">
     <div class="popup__container" id="addpopup">
       <button type="button" class="popup__close popup__close-place"></button>
       <h2 class="popup__title">Новое место</h2>
@@ -99,17 +51,17 @@
       </form>
     </div>
   </section>
-  <section class="popup-more">
-    <div class="popup-more__container">
-      <button type="button" class="popup-more__close"></button>
-      <img class="popup-more__image" src="./images/dvor.jpg" alt="Гостинный Двор">
-      <h2 class="popup-more__description">Гостинный Двор</h2>
+  <section class="popup popup_type_more">
+    <div class="popup__container popup__container_type_more">
+      <button type="button" class="popup__close popup__close_type_more"></button>
+      <img class="popup__image" src="./images/dvor.jpg" alt="Гостинный Двор">
+      <h2 class="popup__description"></h2>
     </div>
   </section>
   <template id="places-template">
     <div class="places__block">
       <button type="button" class="places__trash places__trash_delete-icon" id="trashBotton"></button>
-      <img class="places__image places__image_more" src="./images/dvor.jpg" alt="Гостинный Двор">
+      <img class="places__image" src="./images/dvor.jpg" alt="Гостинный Двор">
       <div class="places__place">
           <h2 class="places__title">Гостинный Двор</h2>
           <button type="button" class="places__like"></button>
