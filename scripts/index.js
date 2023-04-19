@@ -12,8 +12,8 @@ function openPopup(popupElement) {
   popupElement.classList.add("popup_opened");
 }
 
-function closePopup() {
-  editProfilePopup.classList.remove("popup_opened");
+function closePopup(popupElement) {
+  popupElement.classList.remove("popup_opened");
 }
 
 function fullInput() {
@@ -23,7 +23,7 @@ function fullInput() {
 }
 
 editProfileOpenButton.addEventListener('click', fullInput);
-editProfileCloseButton.addEventListener('click', closePopup);
+editProfileCloseButton.addEventListener('click', closePopup(editProfilePopup)); //Думать
 
 editProfileFormInput.addEventListener('submit', (event) => {
   event.preventDefault();
