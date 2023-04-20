@@ -13,7 +13,7 @@ function openPopup(popupElement) {
 }
 
 function closePopup(popupElement) {
-  popupElement.classList.remove("popup_opened");
+  popupElement.classList.remove("popup_opened");Ы
 }
 
 function fullInput() {
@@ -23,7 +23,7 @@ function fullInput() {
 }
 
 editProfileOpenButton.addEventListener('click', fullInput);
-editProfileCloseButton.addEventListener('click', closePopup(editProfilePopup)); //Думать
+editProfileCloseButton.addEventListener('click', ()=> closePopup(editProfilePopup));
 
 editProfileFormInput.addEventListener('submit', (event) => {
   event.preventDefault();
@@ -34,8 +34,16 @@ editProfileFormInput.addEventListener('submit', (event) => {
 
 const initialCards = [
   {
-    name: 'Гостинный Двор',
-    image: './images/dvor.jpg'
+    name: 'Абрамцево',
+    image: './images/abramtsevo.jpg'
+  },
+  {
+    name: 'Нальчик',
+    image: './images/nalchik.jpg'
+  },
+  {
+    name: 'Коломна',
+    image: './images/kolomna.jpg'
   },
   {
     name: 'Ростов-на-Дону',
@@ -46,16 +54,8 @@ const initialCards = [
     image: './images/elbrus.jpg'
   },
   {
-    name: 'Коломна',
-    image: './images/kolomna.jpg'
-  },
-  {
-    name: 'Нальчик',
-    image: './images/nalchik.jpg'
-  },
-  {
-    name: 'Абрамцево',
-    image: './images/abramtsevo.jpg'
+    name: 'Гостинный Двор',
+    image: './images/dvor.jpg'
   }
 ];
 
@@ -89,20 +89,12 @@ function createPlaceElement(placeDate) {
 }
 
 const renderPlaceElement = (placeElement) => {
-  placesGrid.prepend(placeElement);
+  placesGrid.append(placeElement);
 };
 
 initialCards.forEach((place) => {
   renderPlaceElement(createPlaceElement(place));
 });
-
-function openPopupAddPlace() {
-  addPlacePopup.classList.add("popup_opened");
-};
-
-function closePopupAddPlace() {
-  addPlacePopup.classList.remove("popup_opened");
-};
 
 function popupAddPlace(event) {
   event.preventDefault();
@@ -114,13 +106,13 @@ function popupAddPlace(event) {
     name,
     image,
   };
-  renderPlaceElement(createPlaceElement(placesDate));
-  closePopup(addPlacePopupForm);
+  placesGrid.prepend(createPlaceElement(placesDate));
+  closePopup(addPlacePopup);
 };
 
 addPlacePopupForm.addEventListener("submit", popupAddPlace);
-addPlacePopupCloseButton.addEventListener('click', closePopupAddPlace);
-addPlacePopupOpenButton.addEventListener('click', openPopupAddPlace);
+addPlacePopupCloseButton.addEventListener('click', ()=> closePopup(addPlacePopup));
+addPlacePopupOpenButton.addEventListener('click', ()=> openPopup(addPlacePopup));
 
 // Увеличение карочек
 const ImagesPopup = document.querySelector('.popup_type_more');
@@ -135,8 +127,4 @@ function OpenPopupSeeImage() {
   openPopup(ImagesPopup);
 };
 
-function closeImagesPopup() {
-  ImagesPopup.classList.remove("popup_opened");
-};
-
-ImagesPopupCloseImageButton.addEventListener('click', closeImagesPopup);
+ImagesPopupCloseImageButton.addEventListener('click', ()=> closePopup(ImagesPopup));
