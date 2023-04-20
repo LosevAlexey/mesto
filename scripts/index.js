@@ -13,7 +13,7 @@ function openPopup(popupElement) {
 }
 
 function closePopup(popupElement) {
-  popupElement.classList.remove("popup_opened");Ы
+  popupElement.classList.remove("popup_opened");
 }
 
 function fullInput() {
