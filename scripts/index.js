@@ -10,11 +10,40 @@ const editProfileDescription = document.querySelector('.profile__description');
 
 function openPopup(popupElement) {
   popupElement.classList.add("popup_opened");
-}
+  document.removeEventListener('keydown', function (event) {
+    closeEscape(event, popupElement)
+  });
+  document.removeEventListener('keydown', function (event) {
+    closeOverlay(event, popupElement)
+  });
+};
 
 function closePopup(popupElement) {
   popupElement.classList.remove("popup_opened");
-}
+  document.removeEventListener('keydown', closeEscape(popupElement));
+};
+
+document.addEventListener('keydown', function (event) {
+  closeEscape(event)
+});
+
+document.addEventListener('click', function (event) {
+  closeOverlay(event)
+});
+
+function closeEscape(event) {
+  if (event.key === 'Escape') {
+    const escape = document.querySelector('.popup_opened');
+    closePopup(escape);
+  };
+};
+
+function closeOverlay(event) {
+  if (event.currentTarget === event.target) {
+    const overlay = document.querySelector('.popup_opened');
+    closePopup(overlay);
+   };
+};
 
 function fullInput() {
   editProfileNameInput.value = editProfileAuthor.textContent;
