@@ -1,85 +1,79 @@
-function setInputValidStade(input, errorElement) {
-  input.classList.remove('popup__input_type_error');
-  errorElement.textContent = '';
+function setInputValidStade(config, input, errorElement) {
+  input.classList.remove(config.inputErrorClass);
+  errorElement.textContent = "";
 }
 
-function setInputInvalidStade(input, errorElement) {
-  input.classList.add('popup__input_type_error');
+function setInputInvalidStade(config, input, errorElement) {
+  input.classList.add(config.inputErrorClass);
   console.log(errorElement);
   errorElement.textContent = input.validationMessage;
 }
 
 //проверяем инпуты
-function checkInputValidity(input) {
+function checkInputValidity(config, input, form) {
   console.log(input.validity.valid);
-  console.log(input.checkValidity());//проверка валидности
+  console.log(input.checkValidity()); //проверка валидности
   console.log(input.id);
-  const errorElement = document.querySelector(`#error-${input.id}`);//вторая формв не отвечает
+  const errorElement = form.querySelector(`#error-${input.id}`); //вторая формв не отвечает
   if (input.checkValidity()) {
-    setInputValidStade(input, errorElement);
+    setInputValidStade(config, input, errorElement);
   } else {
-    setInputInvalidStade(input, errorElement);
+    setInputInvalidStade(config, input, errorElement);
+  }
 }
-};
 
-function disableButton(button) {
-  button.setAttribute('disabled', '');
-  button.classList.add('popup__button_disabled');
-};
+function disableButton({ inactiveButtonClass }, button) {
+  console.log(button);
+  button.setAttribute("disabled", "");
+  button.classList.add(inactiveButtonClass);
+}
 
-function enableButton(button) {
-  button.removeAttribute('disabled');
-  button.classList.remove('popup__button_disabled');
-};
+function enableButton({ inactiveButtonClass }, button) {
+  button.removeAttribute("disabled");
+  button.classList.remove(inactiveButtonClass);
+}
 
 //переключение кнопки
-function toggleButtonValidity(formElement) {
-  const submitButton = document.querySelector('.popup__button');
+function toggleButtonValidity({ submitButtonSelector, ...rest }, form) {
+  const submitButton = form.querySelector(submitButtonSelector);
   console.log(submitButton);
-  disableButton(submitButton);
-  if (formElement[length].checkValidity()) {
-    enableButton(submitButton);
+  disableButton(rest, submitButton);
+  if (form.checkValidity()) {
+    enableButton(rest, submitButton);
   } else {
-    disableButton(submitButton);
-};
+    disableButton(rest, submitButton);
+  }
 }
 
 //валидация формы
-function enableValidation() {
-  const form = document.querySelectorAll('.popup__form');//ищем формы
+function enableValidation({ formSelector, inputSelector, ...rest }) {
+  const form = document.querySelectorAll(formSelector); //ищем формы
   const formArray = Array.from(form);
   console.log(formArray);
 
-  formArray.forEach((formElement) => {
-    formElement.addEventListener('submit', function (event) {
-      event.preventDefault();
+  formArray.forEach((form) => {
+    /* event.preventDefault(); */
+    toggleButtonValidity(rest, form);
 
-  /*  // отправка формы
-   form[length].addEventListener('submit', function (event) {
-     event.preventDefault();//не отключаеться */
-     toggleButtonValidity(formElement);
- });
+    const inputs = form.querySelectorAll(inputSelector); //ищем инпуты
+    console.log(inputs);
+    const inputArray = Array.from(inputs);
+    console.log(inputArray);
+
+    inputArray.forEach(function (input) {
+      input.addEventListener("input", () => {
+        checkInputValidity(rest, input, form);
+        toggleButtonValidity(rest, form);
+      });
+    });
+    toggleButtonValidity(rest, form);
+  });
+}
+
+enableValidation({
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  inactiveButtonClass: "popup__button_disabled",
+  inputErrorClass: "popup__input_type_error",
 });
-
- toggleButtonValidity(form);
-
- const inputs = document.querySelectorAll('.popup__input');//ищем инпуты
- console.log(inputs);
- const inputArray = Array.from(inputs);
- console.log(inputArray);// выбираються только 2 инпута
-
- inputArray.forEach(function (input) {
-   input.addEventListener('input', ()=> {
-    checkInputValidity(input);
-    toggleButtonValidity(form);
-  });
- });
-  };
-
-  enableValidation({
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__button',
-    inactiveButtonClass: 'popup__button_disabled',
-    inputErrorClass: 'popup__input_type_error',
-  });

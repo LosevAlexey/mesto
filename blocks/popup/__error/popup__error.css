@@ -6,6 +6,7 @@
   margin: 0px 36px 0 36px;
   padding: 5px 0 0 0;
   display: block;
+  position: absolute;
 }
 
 @media all and (max-width: 900px) {
