@@ -22,22 +22,21 @@ function checkInputValidity(config, input, form) {
   }
 }
 
-function disableButton({ inactiveButtonClass }, button) {
-  console.log(button);
-  button.setAttribute("disabled", "");
-  button.classList.add(inactiveButtonClass);
+function disableButton({ inactiveButtonClass }, submitButton) {
+  console.log(submitButton);
+  submitButton.setAttribute("disabled", "");
+  submitButton.classList.add(inactiveButtonClass);
 }
 
-function enableButton({ inactiveButtonClass }, button) {
-  button.removeAttribute("disabled");
-  button.classList.remove(inactiveButtonClass);
+function enableButton({ inactiveButtonClass }, submitButton) {
+  submitButton.removeAttribute("disabled");
+  submitButton.classList.remove(inactiveButtonClass);
 }
 
 //переключение кнопки
-function toggleButtonValidity({ submitButtonSelector, ...rest }, form) {
-  const submitButton = form.querySelector(submitButtonSelector);
-  console.log(submitButton);
-  disableButton(rest, submitButton);
+function toggleButtonValidity(rest, form, submitButton) {
+  /*   const submitButton = form.querySelector(submitButtonSelector);
+  console.log(submitButton); */
   if (form.checkValidity()) {
     enableButton(rest, submitButton);
   } else {
@@ -46,14 +45,28 @@ function toggleButtonValidity({ submitButtonSelector, ...rest }, form) {
 }
 
 //валидация формы
-function enableValidation({ formSelector, inputSelector, ...rest }) {
+function enableValidation({
+  formSelector,
+  inputSelector,
+  submitButtonSelector,
+  ...rest
+}) {
   const form = document.querySelectorAll(formSelector); //ищем формы
   const formArray = Array.from(form);
   console.log(formArray);
-
+  /* console.log('отправить');
+  form.reset(); */
   formArray.forEach((form) => {
     /* event.preventDefault(); */
-    toggleButtonValidity(rest, form);
+    /* form.target.reset(); */
+    /* toggleButtonValidity(rest, form); */
+
+    const submitButton = form.querySelector(submitButtonSelector);
+    console.log(submitButton);
+
+    form.addEventListener("reset", function () {
+      disableButton(rest, submitButton);
+    });
 
     const inputs = form.querySelectorAll(inputSelector); //ищем инпуты
     console.log(inputs);
@@ -62,11 +75,11 @@ function enableValidation({ formSelector, inputSelector, ...rest }) {
 
     inputArray.forEach(function (input) {
       input.addEventListener("input", () => {
-        checkInputValidity(rest, input, form);
-        toggleButtonValidity(rest, form);
+        checkInputValidity(rest, input, form, submitButton);
+        toggleButtonValidity(rest, form, submitButton);
       });
     });
-    toggleButtonValidity(rest, form);
+    toggleButtonValidity(rest, form, submitButton);
   });
 }
 

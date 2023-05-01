@@ -9,6 +9,7 @@ const descriptionInputeditProfile = document.querySelector(
 const formInputeditProfile = document.querySelector(".popup__form");
 const authorEditProfile = document.querySelector(".profile__author");
 const descriptionEditProfile = document.querySelector(".profile__description");
+const popup = document.querySelectorAll(".popup");
 
 function openPopup(popupElement) {
   popupElement.classList.add("popup_opened");
@@ -21,7 +22,7 @@ function openPopup(popupElement) {
   /* const popup = form.querySelector("popup_opened"); */
   /* console.log(popup);
   popupElement.forEach((pop) => { */
-  popupElement.addEventListener("click", closeOverlay);
+  /* popupElement.addEventListener("click", closeOverlay); */
   /* }); */
 }
 
@@ -36,16 +37,17 @@ function closeEscape(event) {
     closePopup(escape);
   }
 }
+popup.forEach(function (p) {
+  p.addEventListener("click", (event) => {
+    if (event.target === event.currentTarget) {
+      closePopup(event.target);
+    }
+  });
+});
 
-function closeOverlay(event) {
-  if (event.target === event.currentTarget) {
-    closePopup(event.target);
-  }
-}
-
-function fullInput() {
-  nameInputeditProfile.value = authorEditProfile.textContent;
-  descriptionInputeditProfile.value = descriptionEditProfile.textContent;
+function fullInput(button) {
+  nameInputeditProfile.value = "";
+  descriptionInputeditProfile.value = "";
   openPopup(popupEditProfileP);
 }
 
@@ -59,32 +61,39 @@ formInputeditProfile.addEventListener("submit", (event) => {
   authorEditProfile.textContent = nameInputeditProfile.value;
   descriptionEditProfile.textContent = descriptionInputeditProfile.value;
   closePopup(popupEditProfileP);
+  event.target.reset();
 });
 
 const initialCards = [
   {
     name: "Абрамцево",
-    image: "./images/abramtsevo.jpg",
+    image:
+      "https://images.unsplash.com/photo-1609067936529-59bf24113fec?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80",
   },
   {
-    name: "Нальчик",
-    image: "./images/nalchik.jpg",
+    name: "Архыз",
+    image:
+      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
   },
   {
-    name: "Коломна",
-    image: "./images/kolomna.jpg",
+    name: "Иваново",
+    image:
+      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
   },
   {
-    name: "Ростов-на-Дону",
-    image: "./images/rostov.jpg",
+    name: "Камчатка",
+    image:
+      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
   },
   {
-    name: "Эльбрус",
-    image: "./images/elbrus.jpg",
+    name: "Холмогорский район",
+    image:
+      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
   },
   {
-    name: "Гостинный Двор",
-    image: "./images/dvor.jpg",
+    name: "Байкал",
+    image:
+      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
   },
 ];
 
@@ -115,7 +124,7 @@ function createPlaceElement(placeDate) {
   };
   deleteButton.addEventListener("click", handleDelete);
   likebutton.addEventListener("click", handleLike);
-  placeImage.addEventListener("click", OpenPopupSeeImage);
+  placeImage.addEventListener("click", openPopupSeeImage);
   return placeElement;
 }
 
@@ -139,6 +148,7 @@ function addPlacePopup(event) {
   };
   gridPlaces.prepend(createPlaceElement(placesDate));
   closePopup(popupAddPlace);
+  event.target.reset();
 }
 
 formPopupAddPlace.addEventListener("submit", addPlacePopup);
@@ -157,7 +167,7 @@ const buttonCloseImageImagesPopup = popupImages.querySelector(
 const imageImagesPopup = document.querySelector(".popup__image");
 const linkImagesPopup = document.querySelector(".popup__description");
 
-function OpenPopupSeeImage() {
+function openPopupSeeImage() {
   imageImagesPopup.alt = this.alt;
   imageImagesPopup.src = this.src;
   linkImagesPopup.textContent = imageImagesPopup.alt;
