@@ -1,3 +1,6 @@
+import Card from './Card.js'
+import FormValidator from './FormValidator.js'
+
 // Редактирование профиля
 const popupEditProfileP = document.querySelector(".popup_type_edit-profile");
 const buttonOpenEditProfile = document.querySelector(".profile__edit-button");
@@ -11,19 +14,10 @@ const authorEditProfile = document.querySelector(".profile__author");
 const descriptionEditProfile = document.querySelector(".profile__description");
 const popup = document.querySelectorAll(".popup");
 
-function openPopup(popupElement) {
+export function openPopup(popupElement) {
   popupElement.classList.add("popup_opened");
   document.addEventListener("keydown", closeEscape);
-  /* const popup = document.querySelector(".popup");
-  const popupArray = Array.from(popup);
-  console.log(popup);
-  console.log(popupArray); */
   console.log(popupElement);
-  /* const popup = form.querySelector("popup_opened"); */
-  /* console.log(popup);
-  popupElement.forEach((pop) => { */
-  /* popupElement.addEventListener("click", closeOverlay); */
-  /* }); */
 }
 
 function closePopup(popupElement) {
@@ -64,48 +58,48 @@ formInputeditProfile.addEventListener("submit", (event) => {
   event.target.reset();
 });
 
-const initialCards = [
+export const initialCards = [
   {
-    name: 'Архыз',
-    image: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    name: 'Абрамцево',
+    link: 'https://images.unsplash.com/photo-1609067936529-59bf24113fec?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80'
   },
   {
     name: 'Челябинская область',
-    image: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
   },
   {
     name: 'Иваново',
-    image: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
   },
   {
     name: 'Камчатка',
-    image: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
   },
   {
     name: 'Холмогорский район',
-    image: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
   },
   {
     name: 'Байкал',
-    image: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
 
 // Добавление карточек
-const templatePlaces = document.getElementById("places-template");
+/* const templatePlaces = document.getElementById("places-template");
 const gridPlaces = document.querySelector(".places");
 const popupAddPlace = document.querySelector(".popup_type_places");
 const buttonOpenPopupAddPlace = document.querySelector(".profile__add");
 const formPopupAddPlace = document.querySelector(".popup__form_place");
 const buttonClosePopupAddPlace = document.querySelector(".popup__close-place");
 
-function createPlaceElement(placeDate) {
+ function createPlaceElement(placeDate) {
   const placeElement = templatePlaces.content
     .querySelector(".places__block")
     .cloneNode(true);
   const placeImage = placeElement.querySelector(".places__image");
   const placesTitle = placeElement.querySelector(".places__title");
-  placeImage.src = placeDate.image;
+  placeImage.src = placeDate.link;
   placeImage.alt = placeDate.name;
   placesTitle.textContent = placeDate.name;
   const deleteButton = placeElement.querySelector(".places__trash_delete-icon");
@@ -138,9 +132,39 @@ function addPlacePopup(event) {
   const image = linkPlace.value;
   const placesDate = {
     name,
-    image,
+    link,
   };
   gridPlaces.prepend(createPlaceElement(placesDate));
+  closePopup(popupAddPlace);
+  event.target.reset();
+}
+
+formPopupAddPlace.addEventListener("submit", addPlacePopup);
+buttonClosePopupAddPlace.addEventListener("click", () =>
+  closePopup(popupAddPlace)
+);
+buttonOpenPopupAddPlace.addEventListener("click", () =>
+  openPopup(popupAddPlace)
+); */
+
+//Создание карточки
+const gridPlaces = document.querySelector(".places");
+const formPopupAddPlace = document.querySelector(".popup__form_place");
+const buttonOpenPopupAddPlace = document.querySelector(".profile__add");
+const buttonClosePopupAddPlace = document.querySelector(".popup__close-place");
+const popupAddPlace = document.querySelector(".popup_type_places");
+
+function addPlacePopup(event) {
+  event.preventDefault();
+  const namePlace = document.querySelector(".popup__input_place_description");
+  const linkPlace = document.querySelector(".popup__input_place_link");
+  const name = namePlace.value;
+  const image = linkPlace.value;
+  const placesDate = {
+    name,
+    link,
+  };
+  gridPlaces.prepend(Card.createCard);
   closePopup(popupAddPlace);
   event.target.reset();
 }
@@ -154,14 +178,14 @@ buttonOpenPopupAddPlace.addEventListener("click", () =>
 );
 
 // Увеличение карочек
-const popupImages = document.querySelector(".popup_type_more");
-const buttonCloseImageImagesPopup = popupImages.querySelector(
+export const popupImages = document.querySelector(".popup_type_more");
+export const buttonCloseImageImagesPopup = popupImages.querySelector(
   ".popup__close_type_more"
 );
-const imageImagesPopup = document.querySelector(".popup__image");
-const linkImagesPopup = document.querySelector(".popup__description");
+export const imageImagesPopup = document.querySelector(".popup__image");
+export const linkImagesPopup = document.querySelector(".popup__description");
 
-function openPopupSeeImage() {
+export function openPopupSeeImage() {
   imageImagesPopup.alt = this.alt;
   imageImagesPopup.src = this.src;
   linkImagesPopup.textContent = imageImagesPopup.alt;
