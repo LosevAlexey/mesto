@@ -1,6 +1,6 @@
-import { initialCards, openPopupSeeImage } from "./index.js";
+import { openPopupSeeImage } from "./index.js";
 
-class Card {
+export default class Card {
   constructor(data) {
     this._data = data;
     this._link = data.link;
@@ -19,6 +19,10 @@ class Card {
   createCard = () => {
     this._element = this._getTemplate();
 
+    this._deleteButton = this._element.querySelector('.places__trash_delete-icon');
+    this._likeButton = this._element.querySelector('.places__like');
+    this._cardImage = this._element.querySelector('.places__image');
+
     this._element.querySelector('.places__image').src = this._link;
     this._element.querySelector('.places__image').alt = this._name;
     this._element.querySelector('.places__title').textContent = this._name;
@@ -31,24 +35,18 @@ class Card {
   }
 
   _onLike = () => {
-    this._element.querySelector('.places__like').classList.toggle("places__like_active");
+    this._likeButton.classList.toggle("places__like_active");
   }
 
-   _openImage = () => {
-    this._openPopupSeeImage(this._element);
+   _openImage = (placesDate) => {
+    this._openPopupSeeImage(placesDate);
   }
 
   _setEventListener() {
-    this._element.querySelector('.places__trash_delete-icon').addEventListener("click", this._onDelete);
-    this._element.querySelector('.places__like').addEventListener("click", this._onLike);
-    this._element.querySelector('.places__image').addEventListener("click", this._openImage);
+    this._deleteButton.addEventListener("click", this._onDelete);
+    this._likeButton.addEventListener("click", this._onLike);
+    this._cardImage.addEventListener("click", this._openImage);
   }
 }
 
-initialCards.forEach((item) => {
-  const card = new Card(item);
-  const cardElement = card.createCard();
-  document.querySelector('.places').append(cardElement);
-});
 
-export default Card;

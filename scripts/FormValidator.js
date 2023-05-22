@@ -1,108 +1,79 @@
-class FormValidator {
+import { config } from "./index.js";
+
+export default class FormValidator {
   constructor(config, formElement) {
     this._formSelector = config.formSelector;
     this._inputSelector = config.inputSelector;
     this._submitButtonSelector = config.submitButtonSelector;
     this._inactiveButtonClass = config.inactiveButtonClass;
     this._inputErrorClass = config.inputErrorClass;
-    this._form = cardFormElement.querySelector(this._formSelector);
+    this._formElement = formElement;
+    this._submitButton = this._formElement.querySelector(this._submitButtonSelector);
+    this._input = this._formElement.querySelector(this._inputSelector);
+    console.log(this._formElement);
   }
 
-
-_setInputValidStade(input, errorElement) {
-  input.classList.remove(this._inputErrorClass);
+_setInputValidStade(errorElement) {
+  this._input.classList.remove(this._inputErrorClass);
   errorElement.textContent = "";
 }
 
-_setInputInvalidStade(input, errorElement) {
-  input.classList.add(this._inputErrorClass);
+_setInputInvalidStade(errorElement) {
+  this._input.classList.add(this._inputErrorClass);
   console.log(errorElement);
-  errorElement.textContent = input.validationMessage;
+  errorElement.textContent = this._input.validationMessage;
 }
 
 //проверяем инпуты
-_checkInputValidity(input, form) {
-  console.log(input.validity.valid);
-  console.log(input._checkValidity()); //проверка валидности
-  console.log(input.id);
-  const errorElement = form.querySelector(`#error-${input.id}`); //вторая формв не отвечает
-  if (input._checkValidity()) {
-    this._setInputValidStade(input, errorElement);
+_checkInputValidity() {
+  const errorElement = this._formElement.querySelector(`#error-${this._input.id}`);
+  console.log(errorElement);
+  if (!this._input.validity) {
+    this._setInputValidStade(errorElement);
   } else {
-    this._setInputInvalidStade(input, errorElement);
+    this._setInputInvalidStade(errorElement);
   }
 }
 
-_disableButton(submitButton) {
-  console.log(submitButton);
-  submitButton.setAttribute("disabled", "");
-  submitButton.classList.add(this._inactiveButtonClass);
+_disableButton() {
+  this._submitButton.setAttribute("disabled", "");
+  this._submitButton.classList.add(this._inactiveButtonClass);
 }
 
-_enableButton(submitButton) {
-  submitButton.removeAttribute("disabled");
-  submitButton.classList.remove(this._inactiveButtonClass);
+_enableButton() {
+  this._submitButton.removeAttribute("disabled");
+  this._submitButton.classList.remove(this._inactiveButtonClass);
 }
 
 //переключение кнопки
-_toggleButtonValidity(form, submitButton) {
-  if (form.checkValidity()) {
-    this._enableButton(rest, submitButton);
+_toggleButtonValidity() {
+  if (this._formElement.validity) {
+    this._enableButton();
   } else {
-    this._disableButton(rest, submitButton);
+    this._disableButton();
   }
 }
 
 //валидация формы
 enableValidation() {
-  /* const form = document.querySelectorAll(this._formSelector); */ //ищем формы
-  const formArray = Array.from(this._form);
-  console.log(formArray);
+  this._formElement.addEventListener("reset", this._disableButton());
 
-  formArray.forEach((form) => {
+  this._formElement.addEventListener("reset", this._checkInputValidity());
 
-    const submitButton = this._form.querySelector(this._submitButtonSelector);
-    console.log(submitButton);
+  const inputList = this._formElement.querySelector(this._inputSelector);
+  console.log(inputList);
 
-    this._form.addEventListener("reset", function () {
-      disableButton(submitButton);
+  inputList.addEventListener("input", () => {
+      this._checkInputValidity();
+      this._toggleButtonValidity(inputList);
     });
 
-    const inputs = this._form.querySelectorAll(this._inputSelector); //ищем инпуты
-    console.log(inputs);
-    const inputArray = Array.from(inputs);
-    console.log(inputArray);
-
-    inputArray.forEach(function (input) {
-      input.addEventListener("input", () => {
-        this._checkInputValidity(input, form, submitButton);
-        this._toggleButtonValidity(form, submitButton);
-      });
-    });
-    this._toggleButtonValidity(form, submitButton);
-  });
+  this._toggleButtonValidity();
 }
 }
 
-const config = {
-  formSelector: ".popup__form",
-  inputSelector: ".popup__input",
-  submitButtonSelector: ".popup__button",
-  inactiveButtonClass: "popup__button_disabled",
-  inputErrorClass: "popup__input_type_error",
-};
 
-const profileElement = document.querySelector('.popup_type_edit-profile');
-const profileValidator = new FormValidator(config, profileElement);
 
-const cardFormElement = document.querySelector('.popup_type_places');
-console.log(cardFormElement);
-const cardValidator = new FormValidator(config, cardFormElement);
-
-cardValidator.enableValidation();
-profileValidator.enableValidation();
-
-export default FormValidator;
 
 
 
@@ -212,4 +183,5 @@ enableValidation({
   submitButtonSelector: ".popup__button",
   inactiveButtonClass: "popup__button_disabled",
   inputErrorClass: "popup__input_type_error",
-}); */
+});
+ */
