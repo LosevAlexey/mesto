@@ -1,5 +1,3 @@
-import { config } from "./index.js";
-
 export default class FormValidator {
   constructor(config, formElement) {
     this._formSelector = config.formSelector;
@@ -10,10 +8,11 @@ export default class FormValidator {
     this._formElement = formElement;
     this._submitButton = this._formElement.querySelector(this._submitButtonSelector);
     this._input = this._formElement.querySelector(this._inputSelector);
+    console.log(this._input);
     console.log(this._formElement);
   }
 
-_setInputValidStade(errorElement) {
+/* _setInputValidStade(errorElement) {
   this._input.classList.remove(this._inputErrorClass);
   errorElement.textContent = "";
 }
@@ -21,6 +20,7 @@ _setInputValidStade(errorElement) {
 _setInputInvalidStade(errorElement) {
   this._input.classList.add(this._inputErrorClass);
   console.log(errorElement);
+  console.log(this._input);
   errorElement.textContent = this._input.validationMessage;
 }
 
@@ -28,10 +28,34 @@ _setInputInvalidStade(errorElement) {
 _checkInputValidity() {
   const errorElement = this._formElement.querySelector(`#error-${this._input.id}`);
   console.log(errorElement);
-  if (!this._input.validity) {
+  if (!this._input.validity.valid) {
     this._setInputValidStade(errorElement);
   } else {
     this._setInputInvalidStade(errorElement);
+  }
+} */
+_setInputValidStade(input, errorElement) {
+  input.classList.remove(this._inputErrorClass);
+  errorElement.textContent = "";
+}
+
+_setInputInvalidStade(input, errorElement) {
+  this._input.classList.add(this._inputErrorClass);
+  console.log(errorElement);
+  errorElement.textContent = this._input.validationMessage;
+}
+
+//проверяем инпуты
+_checkInputValidity(input) {
+  /* console.log(input.validity.valid); */
+ /*  console.log(input.checkValidity()); */ //проверка валидности
+  /* console.log(input.id); */
+  const errorElement = this._formElement.querySelector(`#error-${this._input.id}`); //вторая формв не отвечает
+  if (this._input.checkValidity()) {
+    this._setInputValidStade(input, errorElement);
+  } else {
+    this._setInputInvalidStade(input, errorElement);
+
   }
 }
 
@@ -60,14 +84,15 @@ enableValidation() {
 
   this._formElement.addEventListener("reset", this._checkInputValidity());
 
-  const inputList = this._formElement.querySelector(this._inputSelector);
+  const inputList = this._formElement.querySelectorAll(this._inputSelector);
   console.log(inputList);
-
-  inputList.addEventListener("input", () => {
-      this._checkInputValidity();
+  inputList.forEach((input) => {
+    input.addEventListener("input", () => {
+      console.log();
+      this._checkInputValidity(input);
       this._toggleButtonValidity(inputList);
     });
-
+  });
   this._toggleButtonValidity();
 }
 }

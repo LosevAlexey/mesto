@@ -55,7 +55,7 @@ formInputeditProfile.addEventListener("submit", (event) => {
   authorEditProfile.textContent = nameInputeditProfile.value;
   descriptionEditProfile.textContent = descriptionInputeditProfile.value;
   closePopup(popupEditProfileP);
-  event.target.reset();
+  /* event.target.reset(); */
 });
 
 export const initialCards = [
@@ -115,7 +115,7 @@ buttonOpenPopupAddPlace.addEventListener("click", () =>
   openPopup(popupAddPlace)
 );
 
-// Увеличение карочек
+/* // Увеличение карочек
 const popupImages = document.querySelector(".popup_type_more");
 const buttonCloseImageImagesPopup = popupImages.querySelector(
   ".popup__close_type_more"
@@ -129,6 +129,19 @@ export function openPopupSeeImage(placesDate) {
   linkImagesPopup.textContent = imageImagesPopup.alt;
   openPopup(popupImages);
 }
+
+buttonCloseImageImagesPopup.addEventListener("click", () =>
+  closePopup(popupImages)
+); */
+
+
+//Для увеливения картинок
+export const imageImagesPopup = document.querySelector(".popup__image");
+export const linkImagesPopup = document.querySelector(".popup__description");
+export const popupImages = document.querySelector(".popup_type_more");
+const buttonCloseImageImagesPopup = popupImages.querySelector(
+  ".popup__close_type_more"
+);
 
 buttonCloseImageImagesPopup.addEventListener("click", () =>
   closePopup(popupImages)
@@ -159,3 +172,40 @@ initialCards.forEach((item) => {
   const cardElement = card.createCard();
   document.querySelector('.places').append(cardElement);
 });
+
+
+
+
+
+/* const initialCards = [
+  {
+    name: "Абрамцево",
+    image:
+      "https://images.unsplash.com/photo-1609067936529-59bf24113fec?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80",
+  },
+  {
+    name: "Архыз",
+    image:
+      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
+  },
+  {
+    name: "Иваново",
+    image:
+      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
+  },
+  {
+    name: "Камчатка",
+    image:
+      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
+  },
+  {
+    name: "Холмогорский район",
+    image:
+      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
+  },
+  {
+    name: "Байкал",
+    image:
+      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
+  },
+]; */
