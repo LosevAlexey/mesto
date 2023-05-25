@@ -10,48 +10,27 @@ export default class FormValidator {
     this._input = this._formElement.querySelector(this._inputSelector);
     console.log(this._input);
     console.log(this._formElement);
+    console.log(this._submitButton);
   }
 
-/* _setInputValidStade(errorElement) {
-  this._input.classList.remove(this._inputErrorClass);
-  errorElement.textContent = "";
-}
-
-_setInputInvalidStade(errorElement) {
-  this._input.classList.add(this._inputErrorClass);
-  console.log(errorElement);
-  console.log(this._input);
-  errorElement.textContent = this._input.validationMessage;
-}
-
-//проверяем инпуты
-_checkInputValidity() {
-  const errorElement = this._formElement.querySelector(`#error-${this._input.id}`);
-  console.log(errorElement);
-  if (!this._input.validity.valid) {
-    this._setInputValidStade(errorElement);
-  } else {
-    this._setInputInvalidStade(errorElement);
-  }
-} */
 _setInputValidStade(input, errorElement) {
   input.classList.remove(this._inputErrorClass);
   errorElement.textContent = "";
 }
 
 _setInputInvalidStade(input, errorElement) {
-  this._input.classList.add(this._inputErrorClass);
+  input.classList.add(this._inputErrorClass);
   console.log(errorElement);
-  errorElement.textContent = this._input.validationMessage;
+  errorElement.textContent = input.validationMessage;
 }
 
 //проверяем инпуты
 _checkInputValidity(input) {
-  /* console.log(input.validity.valid); */
- /*  console.log(input.checkValidity()); */ //проверка валидности
-  /* console.log(input.id); */
-  const errorElement = this._formElement.querySelector(`#error-${this._input.id}`); //вторая формв не отвечает
-  if (this._input.checkValidity()) {
+  /* console.log(this._input.validity.valid); */
+ /*  console.log(this._input.checkValidity()); */ //проверка валидности
+  console.log(this._input.id);
+  const errorElement = this._formElement.querySelector(`#error-${input.id}`); //вторая формв не отвечает
+  if (input.checkValidity()) {
     this._setInputValidStade(input, errorElement);
   } else {
     this._setInputInvalidStade(input, errorElement);
@@ -60,29 +39,32 @@ _checkInputValidity(input) {
 }
 
 _disableButton() {
+  console.log(this._submitButton, 'click');
   this._submitButton.setAttribute("disabled", "");
   this._submitButton.classList.add(this._inactiveButtonClass);
 }
 
 _enableButton() {
+  console.log(this._submitButton);
   this._submitButton.removeAttribute("disabled");
   this._submitButton.classList.remove(this._inactiveButtonClass);
 }
 
-//переключение кнопки
+//переключение кнопки ВСЕ ОЧЕНЬ ПРОХО, НЕ ПЕРЕКЛЮЧАЮТСЯ
 _toggleButtonValidity() {
-  if (this._formElement.validity) {
-    this._enableButton();
-  } else {
+  if (!this._formElement.validity) {
+    console.log(this._formElement);
     this._disableButton();
+  } else {
+    this._enableButton();
   }
 }
 
 //валидация формы
 enableValidation() {
-  this._formElement.addEventListener("reset", this._disableButton());
-
-  this._formElement.addEventListener("reset", this._checkInputValidity());
+  this._formElement.addEventListener("submit", function (evt) {
+    evt.preventDefault();
+  });
 
   const inputList = this._formElement.querySelectorAll(this._inputSelector);
   console.log(inputList);
@@ -90,10 +72,16 @@ enableValidation() {
     input.addEventListener("input", () => {
       console.log();
       this._checkInputValidity(input);
-      this._toggleButtonValidity(inputList);
+      this._toggleButtonValidity();
     });
   });
+  this._formElement.addEventListener("submit", (evt) => {
+    evt.preventDefault();
+  });
   this._toggleButtonValidity();
+}
+resetValidation() {
+  this._disableButton();
 }
 }
 

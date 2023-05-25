@@ -25,15 +25,16 @@ export default class Card {
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
     this._element.querySelector('.places__title').textContent = this._name;
+
     this._setEventListener();
     return this._element;
   }
 
-  _onDelete = () => {
+  _deleteCard = () => {
     this._element.remove();
   }
 
-  _onLike = () => {
+  _LikeCard = () => {
     this._likeButton.classList.toggle("places__like_active");
   }
 
@@ -45,8 +46,8 @@ export default class Card {
   }
 
   _setEventListener() {
-    this._deleteButton.addEventListener("click", this._onDelete);
-    this._likeButton.addEventListener("click", this._onLike);
+    this._deleteButton.addEventListener("click", this._deleteCard);
+    this._likeButton.addEventListener("click", this._LikeCard);
     this._cardImage.addEventListener("click", this._openImage);
   }
 }

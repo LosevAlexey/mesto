@@ -4,12 +4,12 @@ import FormValidator from "./FormValidator.js"
 // Редактирование профиля
 const popupEditProfileP = document.querySelector(".popup_type_edit-profile");
 const buttonOpenEditProfile = document.querySelector(".profile__edit-button");
-const buttonCloseEditProfile = document.querySelector(".popup__close");
+const buttonCloseEditProfile = document.querySelector(".popup__close_edit-profile");
 const nameInputeditProfile = document.querySelector(".popup__input_form_name");
 const descriptionInputeditProfile = document.querySelector(
   ".popup__input_form_description"
 );
-const formInputeditProfile = document.querySelector(".popup__form");
+const formInputeditProfile = document.querySelector(".popup__form_edit-profile");
 const authorEditProfile = document.querySelector(".profile__author");
 const descriptionEditProfile = document.querySelector(".profile__description");
 const popup = document.querySelectorAll(".popup");
@@ -40,8 +40,8 @@ popup.forEach(function (p) {
 });
 
 function fullInput(button) {
-  nameInputeditProfile.value = "";
-  descriptionInputeditProfile.value = "";
+  nameInputeditProfile.value = authorEditProfile.textContent;
+  descriptionInputeditProfile.value = descriptionEditProfile.textContent;
   openPopup(popupEditProfileP);
 }
 
@@ -52,6 +52,7 @@ buttonCloseEditProfile.addEventListener("click", () =>
 
 formInputeditProfile.addEventListener("submit", (event) => {
   event.preventDefault();
+  console.log(formInputeditProfile);
   authorEditProfile.textContent = nameInputeditProfile.value;
   descriptionEditProfile.textContent = descriptionInputeditProfile.value;
   closePopup(popupEditProfileP);
@@ -86,10 +87,22 @@ export const initialCards = [
 ];
 
 //Создание карточки
+const createCards = (item) => {
+  const card = new Card(item);
+  const cardElement = card.createCard();
+  return cardElement;
+}
+
+//Для массива
 const gridPlaces = document.querySelector(".places");
+initialCards.forEach((item) => {
+  gridPlaces.append(createCards(item));
+});
+
+//Создание новой карточки
 const formPopupAddPlace = document.querySelector(".popup__form_place");
 const buttonOpenPopupAddPlace = document.querySelector(".profile__add");
-const buttonClosePopupAddPlace = document.querySelector(".popup__close-place");
+const buttonClosePopupAddPlace = document.querySelector(".popup__close_place");
 const popupAddPlace = document.querySelector(".popup_type_places");
 const namePlace = document.querySelector(".popup__input_place_description");
 const linkPlace = document.querySelector(".popup__input_place_link");
@@ -97,12 +110,12 @@ const linkPlace = document.querySelector(".popup__input_place_link");
 function addPlacePopup(event) {
   event.preventDefault();
   const name = namePlace.value;
-  const image = linkPlace.value;
+  const link = linkPlace.value;
   const placesDate = {
     name,
     link,
   };
-  gridPlaces.prepend(Card.createCard);
+  gridPlaces.prepend(createCards(placesDate));
   closePopup(popupAddPlace);
   /* event.target.reset(); */
 }
@@ -147,7 +160,7 @@ buttonCloseImageImagesPopup.addEventListener("click", () =>
   closePopup(popupImages)
 );
 
-// Для валидации
+//Для валидации
 export const config = {
   formSelector: ".popup__form",
   inputSelector: ".popup__input",
@@ -166,12 +179,7 @@ const cardValidator = new FormValidator(config, cardFormElement);
 cardValidator.enableValidation();
 profileValidator.enableValidation();
 
-// Для массива
-initialCards.forEach((item) => {
-  const card = new Card(item);
-  const cardElement = card.createCard();
-  document.querySelector('.places').append(cardElement);
-});
+
 
 
 
