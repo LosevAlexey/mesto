@@ -17,7 +17,7 @@ const popup = document.querySelectorAll(".popup");
 export function openPopup(popupElement) {
   popupElement.classList.add("popup_opened");
   document.addEventListener("keydown", closeEscape);
-  console.log(popupElement);
+  /* console.log(popupElement); */
 }
 
 function closePopup(popupElement) {
@@ -169,10 +169,10 @@ export const config = {
   inputErrorClass: "popup__input_type_error",
 };
 
-const profileElement = document.querySelector('.popup_type_edit-profile');
+const profileElement = document.querySelector('#edit-profile');
 const profileValidator = new FormValidator(config, profileElement);
 
-const cardFormElement = document.querySelector('.popup_type_places');
+const cardFormElement = document.querySelector('#places');
 console.log(cardFormElement);
 const cardValidator = new FormValidator(config, cardFormElement);
 
