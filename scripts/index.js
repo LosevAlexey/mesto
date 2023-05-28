@@ -1,18 +1,22 @@
-import Card from "./Card.js"
-import FormValidator from "./FormValidator.js"
+import Card from "./Card.js";
+import FormValidator from "./FormValidator.js";
 
 // Редактирование профиля
 const popupEditProfileP = document.querySelector(".popup_type_edit-profile");
 const buttonOpenEditProfile = document.querySelector(".profile__edit-button");
-const buttonCloseEditProfile = document.querySelector(".popup__close_edit-profile");
+const buttonCloseEditProfile = document.querySelector(
+  ".popup__close_edit-profile"
+);
 const nameInputeditProfile = document.querySelector(".popup__input_form_name");
 const descriptionInputeditProfile = document.querySelector(
   ".popup__input_form_description"
 );
-const formInputeditProfile = document.querySelector(".popup__form_edit-profile");
+const formInputeditProfile = document.querySelector(
+  ".popup__form_edit-profile"
+);
 const authorEditProfile = document.querySelector(".profile__author");
 const descriptionEditProfile = document.querySelector(".profile__description");
-const popup = document.querySelectorAll(".popup");
+const popupList = document.querySelectorAll(".popup");
 
 export function openPopup(popupElement) {
   popupElement.classList.add("popup_opened");
@@ -31,7 +35,7 @@ function closeEscape(event) {
     closePopup(escape);
   }
 }
-popup.forEach(function (p) {
+popupList.forEach(function (p) {
   p.addEventListener("click", (event) => {
     if (event.target === event.currentTarget) {
       closePopup(event.target);
@@ -39,16 +43,18 @@ popup.forEach(function (p) {
   });
 });
 
-function fullInput(button) {
+function fullInput() {
   nameInputeditProfile.value = authorEditProfile.textContent;
   descriptionInputeditProfile.value = descriptionEditProfile.textContent;
+  profileValidator.resetValidation();
   openPopup(popupEditProfileP);
 }
 
 buttonOpenEditProfile.addEventListener("click", fullInput);
-buttonCloseEditProfile.addEventListener("click", () =>
-  closePopup(popupEditProfileP)
-);
+document.querySelectorAll(".popup__close").forEach((button) => {
+  const buttonsPopup = button.closest(".popup"); // нашли родителя с нужным классом
+  button.addEventListener("click", () => closePopup(buttonsPopup)); // закрыли попап
+});
 
 formInputeditProfile.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -61,29 +67,29 @@ formInputeditProfile.addEventListener("submit", (event) => {
 
 export const initialCards = [
   {
-    name: 'Абрамцево',
-    link: 'https://images.unsplash.com/photo-1609067936529-59bf24113fec?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80'
+    name: "Абрамцево",
+    link: "https://images.unsplash.com/photo-1609067936529-59bf24113fec?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80",
   },
   {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    name: "Челябинская область",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg",
   },
   {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    name: "Иваново",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
   },
   {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    name: "Камчатка",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
   },
   {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    name: "Холмогорский район",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
   },
   {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
+    name: "Байкал",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
+  },
 ];
 
 //Создание карточки
@@ -91,7 +97,7 @@ const createCards = (item) => {
   const card = new Card(item);
   const cardElement = card.createCard();
   return cardElement;
-}
+};
 
 //Для массива
 const gridPlaces = document.querySelector(".places");
@@ -124,29 +130,11 @@ formPopupAddPlace.addEventListener("submit", addPlacePopup);
 buttonClosePopupAddPlace.addEventListener("click", () =>
   closePopup(popupAddPlace)
 );
-buttonOpenPopupAddPlace.addEventListener("click", () =>
-  openPopup(popupAddPlace)
-);
-
-/* // Увеличение карочек
-const popupImages = document.querySelector(".popup_type_more");
-const buttonCloseImageImagesPopup = popupImages.querySelector(
-  ".popup__close_type_more"
-);
-const imageImagesPopup = document.querySelector(".popup__image");
-const linkImagesPopup = document.querySelector(".popup__description");
-
-export function openPopupSeeImage(placesDate) {
-  imageImagesPopup.alt = placesDate.name;
-  imageImagesPopup.src = placesDate.link;
-  linkImagesPopup.textContent = imageImagesPopup.alt;
-  openPopup(popupImages);
-}
-
-buttonCloseImageImagesPopup.addEventListener("click", () =>
-  closePopup(popupImages)
-); */
-
+buttonOpenPopupAddPlace.addEventListener("click", () => {
+  formPopupAddPlace.reset();
+  cardValidator.resetValidation();
+  openPopup(popupAddPlace);
+});
 
 //Для увеливения картинок
 export const imageImagesPopup = document.querySelector(".popup__image");
@@ -169,21 +157,15 @@ export const config = {
   inputErrorClass: "popup__input_type_error",
 };
 
-const profileElement = document.querySelector('#edit-profile');
+const profileElement = document.querySelector("#edit-profile");
 const profileValidator = new FormValidator(config, profileElement);
 
-const cardFormElement = document.querySelector('#places');
+const cardFormElement = document.querySelector("#places");
 console.log(cardFormElement);
 const cardValidator = new FormValidator(config, cardFormElement);
 
 cardValidator.enableValidation();
 profileValidator.enableValidation();
-
-
-
-
-
-
 
 /* const initialCards = [
   {
