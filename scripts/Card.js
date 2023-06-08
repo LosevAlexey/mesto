@@ -1,10 +1,3 @@
-import {
-  openPopup,
-  imageImagesPopup,
-  linkImagesPopup,
-  popupImages,
-} from "./index.js";
-
 export default class Card {
   constructor(data) {
     this._data = data;
@@ -42,13 +35,6 @@ export default class Card {
 
   _LikeCard = () => {
     this._likeButton.classList.toggle("places__like_active");
-  };
-
-  _openImage = () => {
-    imageImagesPopup.alt = this._name;
-    imageImagesPopup.src = this._link;
-    linkImagesPopup.textContent = imageImagesPopup.alt;
-    openPopup(popupImages);
   };
 
   _setEventListener() {

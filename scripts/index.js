@@ -1,5 +1,10 @@
 import Card from "./Card.js";
 import FormValidator from "./FormValidator.js";
+import Section from "./Section.js";
+import Popup from "./Popup.js";
+import PopupWithImage from "./PopupWithImage.js";
+import initialCards from "./initialCards.js";
+import PopupWithForm from "./PopupWithForm.js";
 
 // Редактирование профиля
 const popupEditProfileP = document.querySelector(".popup_type_edit-profile");
@@ -18,10 +23,10 @@ const authorEditProfile = document.querySelector(".profile__author");
 const descriptionEditProfile = document.querySelector(".profile__description");
 const popupList = document.querySelectorAll(".popup");
 
-export function openPopup(popupElement) {
+/* export function openPopup(popupElement) {
   popupElement.classList.add("popup_opened");
   document.addEventListener("keydown", closeEscape);
-  /* console.log(popupElement); */
+  console.log(popupElement);
 }
 
 function closePopup(popupElement) {
@@ -41,19 +46,19 @@ popupList.forEach(function (p) {
       closePopup(event.target);
     }
   });
-});
+}); */
 
 function fullInput() {
   nameInputeditProfile.value = authorEditProfile.textContent;
   descriptionInputeditProfile.value = descriptionEditProfile.textContent;
   profileValidator.resetValidation();
-  openPopup(popupEditProfileP);
+  popupEditProfileP.open();
 }
 
 buttonOpenEditProfile.addEventListener("click", fullInput);
 document.querySelectorAll(".popup__close").forEach((button) => {
   const buttonsPopup = button.closest(".popup"); // нашли родителя с нужным классом
-  button.addEventListener("click", () => closePopup(buttonsPopup)); // закрыли попап
+  button.addEventListener("click", () => buttonsPopup.close()); // закрыли попап
 });
 
 formInputeditProfile.addEventListener("submit", (event) => {
@@ -61,49 +66,37 @@ formInputeditProfile.addEventListener("submit", (event) => {
   console.log(formInputeditProfile);
   authorEditProfile.textContent = nameInputeditProfile.value;
   descriptionEditProfile.textContent = descriptionInputeditProfile.value;
-  closePopup(popupEditProfileP);
+  popupEditProfileP.close();
   /* event.target.reset(); */
 });
 
-export const initialCards = [
-  {
-    name: "Абрамцево",
-    link: "https://images.unsplash.com/photo-1609067936529-59bf24113fec?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80",
-  },
-  {
-    name: "Челябинская область",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg",
-  },
-  {
-    name: "Иваново",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
-  },
-  {
-    name: "Камчатка",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
-  },
-  {
-    name: "Холмогорский район",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
-  },
-  {
-    name: "Байкал",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
-  },
-];
-
 //Создание карточки
-const createCards = (item) => {
+/* const createCards = (item) => {
   const card = new Card(item);
   const cardElement = card.createCard();
   return cardElement;
-};
+}; */
 
 //Для массива
 const gridPlaces = document.querySelector(".places");
-initialCards.forEach((item) => {
+console.log(gridPlaces);
+/* initialCards.forEach((item) => {
   gridPlaces.append(createCards(item));
-});
+}); */
+
+console.log(initialCards);
+const createCards = new Section(
+  {
+    items: initialCards,
+    renderer: (item) => {
+      const card = new Card(item);
+      const cardElement = card.createCard();
+      createCards.addItem(cardElement);
+    },
+  },
+  ".places"
+);
+createCards.renderItems();
 
 //Создание новой карточки
 const formPopupAddPlace = document.querySelector(".popup__form_place");
@@ -122,18 +115,16 @@ function addPlacePopup(event) {
     link,
   };
   gridPlaces.prepend(createCards(placesDate));
-  closePopup(popupAddPlace);
+  popupAddPlace.close();
   /* event.target.reset(); */
 }
 
 formPopupAddPlace.addEventListener("submit", addPlacePopup);
-buttonClosePopupAddPlace.addEventListener("click", () =>
-  closePopup(popupAddPlace)
-);
+buttonClosePopupAddPlace.addEventListener("click", () => popupAddPlace.close());
 buttonOpenPopupAddPlace.addEventListener("click", () => {
   formPopupAddPlace.reset();
   cardValidator.resetValidation();
-  openPopup(popupAddPlace);
+  popupAddPlace.open();
 });
 
 //Для увеливения картинок
@@ -145,7 +136,7 @@ const buttonCloseImageImagesPopup = popupImages.querySelector(
 );
 
 buttonCloseImageImagesPopup.addEventListener("click", () =>
-  closePopup(popupImages)
+  popupImages.close()
 );
 
 //Для валидации
@@ -167,35 +158,19 @@ const cardValidator = new FormValidator(config, cardFormElement);
 cardValidator.enableValidation();
 profileValidator.enableValidation();
 
-/* const initialCards = [
-  {
-    name: "Абрамцево",
-    image:
-      "https://images.unsplash.com/photo-1609067936529-59bf24113fec?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80",
+// Колбэки для форм
+const formEditProfileP = new PopupWithForm({
+  popupElement: "..popup_type_edit-profile",
+  submit: (input) => {
+    userInfo.setUserInfo(input);
   },
-  {
-    name: "Архыз",
-    image:
-      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
-  },
-  {
-    name: "Иваново",
-    image:
-      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
-  },
-  {
-    name: "Камчатка",
-    image:
-      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
-  },
-  {
-    name: "Холмогорский район",
-    image:
-      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
-  },
-  {
-    name: "Байкал",
-    image:
-      "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
-  },
-]; */
+});
+formEditProfileP.setEventListeners();
+
+const formAddPlace = new PopupWithForm({
+  popupElement: ".popup__form_place",
+    submit: (input) =>
+    renderCard({ name: input.name, link: input.link })
+  });
+formAddPlace.setEventListeners();
+
