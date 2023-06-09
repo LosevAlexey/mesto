@@ -9,7 +9,7 @@ import PopupWithForm from "./PopupWithForm.js";
 import '../pages/index.css';
 
 // Редактирование профиля
-const popupEditProfileP = document.querySelector(".popup_type_edit-profile");
+
 const buttonOpenEditProfile = document.querySelector(".profile__edit-button");
 const buttonCloseEditProfile = document.querySelector(
   ".popup__close_edit-profile"
@@ -50,14 +50,12 @@ popupList.forEach(function (p) {
   });
 }); */
 
-/* const openPopapEdit = new Popup(
-  {popupElement: ".popup_type_edit-profile"
-  },
-);
-console.log(popupElement);
-openPopapEdit.setEventListeners()
+const popupEditProfileP = document.querySelector(".popup_type_edit-profile");
+const openPopapEdit = new Popup(popupEditProfileP);
 
-export const closePupapButton = document.querySelectorAll(".popup__close"); */
+openPopapEdit.open()
+
+export const closePupapButton = document.querySelectorAll(".popup__close");
 
 function fullInput() {
   nameInputeditProfile.value = authorEditProfile.textContent;
