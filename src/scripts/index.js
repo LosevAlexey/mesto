@@ -6,6 +6,8 @@ import PopupWithImage from "./PopupWithImage.js";
 import initialCards from "./initialCards.js";
 import PopupWithForm from "./PopupWithForm.js";
 
+import '../pages/index.css';
+
 // Редактирование профиля
 const popupEditProfileP = document.querySelector(".popup_type_edit-profile");
 const buttonOpenEditProfile = document.querySelector(".profile__edit-button");
@@ -48,6 +50,15 @@ popupList.forEach(function (p) {
   });
 }); */
 
+/* const openPopapEdit = new Popup(
+  {popupElement: ".popup_type_edit-profile"
+  },
+);
+console.log(popupElement);
+openPopapEdit.setEventListeners()
+
+export const closePupapButton = document.querySelectorAll(".popup__close"); */
+
 function fullInput() {
   nameInputeditProfile.value = authorEditProfile.textContent;
   descriptionInputeditProfile.value = descriptionEditProfile.textContent;
@@ -55,11 +66,11 @@ function fullInput() {
   popupEditProfileP.open();
 }
 
-buttonOpenEditProfile.addEventListener("click", fullInput);
+/* buttonOpenEditProfile.addEventListener("click", fullInput);
 document.querySelectorAll(".popup__close").forEach((button) => {
   const buttonsPopup = button.closest(".popup"); // нашли родителя с нужным классом
   button.addEventListener("click", () => buttonsPopup.close()); // закрыли попап
-});
+}); */
 
 formInputeditProfile.addEventListener("submit", (event) => {
   event.preventDefault();
