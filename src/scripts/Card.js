@@ -1,8 +1,9 @@
 export default class Card {
-  constructor(data) {
+  constructor(data, openPopupImage) {
     this._data = data;
     this._link = data.link;
     this._name = data.name;
+    this._openPopupImage = openPopupImage;
   }
 
   _getTemplate() {
@@ -33,13 +34,17 @@ export default class Card {
     this._element.remove();
   };
 
-  _LikeCard = () => {
+  _likeCard = () => {
     this._likeButton.classList.toggle("places__like_active");
   };
 
   _setEventListener() {
     this._deleteButton.addEventListener("click", this._deleteCard);
-    this._likeButton.addEventListener("click", this._LikeCard);
+    this._likeButton.addEventListener("click", this._likeCard);
     this._cardImage.addEventListener("click", this._openImage);
+  }
+
+  _openImage = () => {
+    this._openPopupImage.open();
   }
 }

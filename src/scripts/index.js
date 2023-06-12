@@ -1,16 +1,14 @@
 import Card from "./Card.js";
 import FormValidator from "./FormValidator.js";
 import Section from "./Section.js";
-import Popup from "./Popup.js";
 import PopupWithImage from "./PopupWithImage.js";
 import initialCards from "./initialCards.js";
 import PopupWithForm from "./PopupWithForm.js";
+import UserInfo from "./UserInfo.js";
 
-import '../pages/index.css';
+import '../pages/index.css'
 
 // Редактирование профиля
-
-const buttonOpenEditProfile = document.querySelector(".profile__edit-button");
 const buttonCloseEditProfile = document.querySelector(
   ".popup__close_edit-profile"
 );
@@ -51,18 +49,56 @@ popupList.forEach(function (p) {
 }); */
 
 const popupEditProfileP = document.querySelector(".popup_type_edit-profile");
-const openPopapEdit = new Popup(popupEditProfileP);
+const popupAddPlace = document.querySelector(".popup_type_places");
+const popupImages = document.querySelector(".popup_type_more");
+const buttonOpenEditProfile = document.querySelector(".profile__edit-button");
+const buttonOpenPopupAddPlace = document.querySelector(".profile__add");
+const formPopupAddPlace = document.querySelector(".popup__form_place");
+const buttonClosePopupForm = document.querySelector(".popup__button");
+/* const openPopapEdit = new Popup(popupEditProfileP);
 
-openPopapEdit.open()
+openPopapEdit.open() */
 
-export const closePupapButton = document.querySelectorAll(".popup__close");
+/* export const closePupapButton = document.querySelectorAll(".popup__close"); */
 
-function fullInput() {
+// Колбэки для форм
+//Открытие редоктирование профиля
+const formEditProfileP = new PopupWithForm(
+  popupEditProfileP, buttonClosePopupForm);
+formEditProfileP.setEventListeners();
+
+buttonOpenEditProfile.addEventListener("click", () => {
+  nameInputeditProfile.value = authorEditProfile.textContent;
+  descriptionInputeditProfile.value = descriptionEditProfile.textContent;
+  profileValidator.resetValidation();
+  formEditProfileP.open()});
+
+  //Открытие формы добавление новой карточки
+const formAddPlace = new PopupWithForm(
+  popupAddPlace, buttonClosePopupForm, (event) => {
+    addPlacePopup(event);
+  });
+formAddPlace.setEventListeners();
+
+/* formPopupAddPlace.addEventListener("submit", addPlacePopup); */
+
+buttonOpenPopupAddPlace.addEventListener("click", () => {
+  formPopupAddPlace.reset();
+  cardValidator.resetValidation();
+  formAddPlace.open()});
+
+  //Увеличение картинки
+const openPopupImage = new PopupWithImage(
+  popupImages);
+  openPopupImage.setEventListeners();
+
+
+/* function fullInput() {
   nameInputeditProfile.value = authorEditProfile.textContent;
   descriptionInputeditProfile.value = descriptionEditProfile.textContent;
   profileValidator.resetValidation();
   popupEditProfileP.open();
-}
+} */
 
 /* buttonOpenEditProfile.addEventListener("click", fullInput);
 document.querySelectorAll(".popup__close").forEach((button) => {
@@ -70,14 +106,14 @@ document.querySelectorAll(".popup__close").forEach((button) => {
   button.addEventListener("click", () => buttonsPopup.close()); // закрыли попап
 }); */
 
-formInputeditProfile.addEventListener("submit", (event) => {
+/* formInputeditProfile.addEventListener("submit", (event) => {
   event.preventDefault();
   console.log(formInputeditProfile);
   authorEditProfile.textContent = nameInputeditProfile.value;
   descriptionEditProfile.textContent = descriptionInputeditProfile.value;
   popupEditProfileP.close();
-  /* event.target.reset(); */
-});
+  event.target.reset();
+}); */
 
 //Создание карточки
 /* const createCards = (item) => {
@@ -98,7 +134,7 @@ const createCards = new Section(
   {
     items: initialCards,
     renderer: (item) => {
-      const card = new Card(item);
+      const card = new Card(item, openPopupImage);
       const cardElement = card.createCard();
       createCards.addItem(cardElement);
     },
@@ -108,10 +144,8 @@ const createCards = new Section(
 createCards.renderItems();
 
 //Создание новой карточки
-const formPopupAddPlace = document.querySelector(".popup__form_place");
-const buttonOpenPopupAddPlace = document.querySelector(".profile__add");
-const buttonClosePopupAddPlace = document.querySelector(".popup__close_place");
-const popupAddPlace = document.querySelector(".popup_type_places");
+
+
 const namePlace = document.querySelector(".popup__input_place_description");
 const linkPlace = document.querySelector(".popup__input_place_link");
 
@@ -124,29 +158,26 @@ function addPlacePopup(event) {
     link,
   };
   gridPlaces.prepend(createCards(placesDate));
-  popupAddPlace.close();
+
   /* event.target.reset(); */
 }
 
-formPopupAddPlace.addEventListener("submit", addPlacePopup);
+/* formPopupAddPlace.addEventListener("submit", addPlacePopup);
 buttonClosePopupAddPlace.addEventListener("click", () => popupAddPlace.close());
 buttonOpenPopupAddPlace.addEventListener("click", () => {
   formPopupAddPlace.reset();
   cardValidator.resetValidation();
   popupAddPlace.open();
-});
+}); */
 
-//Для увеливения картинок
-export const imageImagesPopup = document.querySelector(".popup__image");
-export const linkImagesPopup = document.querySelector(".popup__description");
-export const popupImages = document.querySelector(".popup_type_more");
+/* //Для увеливения картинок
 const buttonCloseImageImagesPopup = popupImages.querySelector(
   ".popup__close_type_more"
-);
+); */
 
-buttonCloseImageImagesPopup.addEventListener("click", () =>
+/* buttonCloseImageImagesPopup.addEventListener("click", () =>
   popupImages.close()
-);
+); */
 
 //Для валидации
 export const config = {
@@ -166,20 +197,3 @@ const cardValidator = new FormValidator(config, cardFormElement);
 
 cardValidator.enableValidation();
 profileValidator.enableValidation();
-
-// Колбэки для форм
-const formEditProfileP = new PopupWithForm({
-  popupElement: "..popup_type_edit-profile",
-  submit: (input) => {
-    userInfo.setUserInfo(input);
-  },
-});
-formEditProfileP.setEventListeners();
-
-const formAddPlace = new PopupWithForm({
-  popupElement: ".popup__form_place",
-    submit: (input) =>
-    renderCard({ name: input.name, link: input.link })
-  });
-formAddPlace.setEventListeners();
-

@@ -6,11 +6,13 @@ export default class PopupWithForm extends Popup {
     this._formElement = document.querySelector(".popup__form");
     this._inputList = this._formElement.querySelector(this._inputSelector);
     console.log(this._formElement);
-    console.log(this._submitButton);
+
     this._submit = submit;
+    console.log(this._submit);
   }
 
   _getInputValues() {
+
     // создаём пустой объект
     this._formValues = {};
 
@@ -25,9 +27,12 @@ export default class PopupWithForm extends Popup {
 
   setEventListeners() {
     super.setEventListeners();
-    this._formElement.addEventListener("submit", (e) => {
-      e.preventDefault();
+    this._formElement.addEventListener("submit", (event) => {
+      event.preventDefault();
       this._submit(this._getInputValues);
+
+      this.close();
+
     });
   }
 
