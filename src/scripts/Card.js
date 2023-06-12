@@ -45,6 +45,6 @@ export default class Card {
   }
 
   _openImage = () => {
-    this._openPopupImage.open();
+    this._openPopupImage(this._data);
   }
 }

@@ -54,7 +54,7 @@ const popupImages = document.querySelector(".popup_type_more");
 const buttonOpenEditProfile = document.querySelector(".profile__edit-button");
 const buttonOpenPopupAddPlace = document.querySelector(".profile__add");
 const formPopupAddPlace = document.querySelector(".popup__form_place");
-const buttonClosePopupForm = document.querySelector(".popup__button");
+const buttonClosePopupForm = document.querySelectorAll(".popup__button");
 /* const openPopapEdit = new Popup(popupEditProfileP);
 
 openPopapEdit.open() */
@@ -134,7 +134,7 @@ const createCards = new Section(
   {
     items: initialCards,
     renderer: (item) => {
-      const card = new Card(item, openPopupImage);
+      const card = new Card(item, () => {openPopupImage.open(item)});
       const cardElement = card.createCard();
       createCards.addItem(cardElement);
     },

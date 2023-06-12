@@ -10,10 +10,11 @@ export default class PopupWithImage extends Popup {
     console.log(this._linkImagesPopup);
   }
 
-open() {
-  this._imageImagesPopup.alt = this._name;
-  this._imageImagesPopup.src = this._link;
-  this._linkImagesPopup.textContent = this._imageImagesPopup.alt;
-  super.open();
-  };
-}
+  open(item) {
+    this._imageImagesPopup.alt = item.name;
+    this._imageImagesPopup.src = item.link;
+    this._linkImagesPopup.textContent = this._imageImagesPopup.alt;
+    super.open();
+    };
+
+  }
