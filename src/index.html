@@ -32,9 +32,9 @@
       <button type="button" class="popup__close popup__close_edit-profile" id="closeBotton"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
       <form name="form" class="popup__form popup__form_edit-profile" id="edit-profile" novalidate>
-        <input id="name" type="text" name="popup-name" class="popup__input popup__input_form_name" required minlength="2" maxlength="40" autocomplete="off">
+        <input id="name" type="text" name="name" class="popup__input popup__input_form_name" required minlength="2" maxlength="40" autocomplete="off">
         <span id="error-name" class="popup__error"></span>
-        <input id="description" type="text" name="popup-description" class="popup__input popup__input_form_description" required minlength="2" maxlength="200" autocomplete="off">
+        <input id="description" type="text" name="description" class="popup__input popup__input_form_description" required minlength="2" maxlength="200" autocomplete="off">
         <span id="error-description" class="popup__error"></span>
         <button id="submitProfile" type="submit" class="popup__button">Сохранить</button>
       </form>
@@ -45,9 +45,9 @@
       <button type="button" class="popup__close popup__close_place"></button>
       <h2 class="popup__title">Новое место</h2>
       <form name="form" class="popup__form popup__form_place" id="places" novalidate>
-        <input id="place-description" type="text" name="popup-name" class="popup__input popup__input_place_description" placeholder="Название" required minlength="2" maxlength="30" autocomplete="off">
+        <input id="place-description" type="text" name="name" class="popup__input popup__input_place_description" placeholder="Название" required minlength="2" maxlength="30" autocomplete="off">
         <span id="error-place-description" class="popup__error"></span>
-        <input id="link" type="url" name="popup-link" class="popup__input popup__input_place_link" placeholder="Ссылка на картинку" required autocomplete="off">
+        <input id="link" type="url" name="link" class="popup__input popup__input_place_link" placeholder="Ссылка на картинку" required autocomplete="off">
         <span id="error-link" class="popup__error"></span>
         <button id="submitPlaces" type="submit" class="popup__button">Создать</button>
       </form>

@@ -12,15 +12,11 @@ import '../pages/index.css'
 const buttonCloseEditProfile = document.querySelector(
   ".popup__close_edit-profile"
 );
-const nameInputeditProfile = document.querySelector(".popup__input_form_name");
-const descriptionInputeditProfile = document.querySelector(
-  ".popup__input_form_description"
-);
+
 const formInputeditProfile = document.querySelector(
   ".popup__form_edit-profile"
 );
-const authorEditProfile = document.querySelector(".profile__author");
-const descriptionEditProfile = document.querySelector(".profile__description");
+
 const popupList = document.querySelectorAll(".popup");
 
 /* export function openPopup(popupElement) {
@@ -54,7 +50,13 @@ const popupImages = document.querySelector(".popup_type_more");
 const buttonOpenEditProfile = document.querySelector(".profile__edit-button");
 const buttonOpenPopupAddPlace = document.querySelector(".profile__add");
 const formPopupAddPlace = document.querySelector(".popup__form_place");
-const buttonClosePopupForm = document.querySelectorAll(".popup__button");
+const nameInputeditProfile = document.querySelector(".popup__input_form_name");
+const descriptionInputeditProfile = document.querySelector(
+  ".popup__input_form_description"
+);
+const authorEditProfile = document.querySelector(".profile__author");
+const descriptionEditProfile = document.querySelector(".profile__description");
+
 /* const openPopapEdit = new Popup(popupEditProfileP);
 
 openPopapEdit.open() */
@@ -63,8 +65,13 @@ openPopapEdit.open() */
 
 // Колбэки для форм
 //Открытие редоктирование профиля
+const userInfo = new UserInfo (authorEditProfile, descriptionEditProfile);
+
 const formEditProfileP = new PopupWithForm(
-  popupEditProfileP, buttonClosePopupForm);
+  popupEditProfileP, (formValues) => {
+    console.log(formValues);
+    userInfo.setUserInfo(formValues);
+  });
 formEditProfileP.setEventListeners();
 
 buttonOpenEditProfile.addEventListener("click", () => {
@@ -75,8 +82,9 @@ buttonOpenEditProfile.addEventListener("click", () => {
 
   //Открытие формы добавление новой карточки
 const formAddPlace = new PopupWithForm(
-  popupAddPlace, buttonClosePopupForm, (event) => {
-    addPlacePopup(event);
+  popupAddPlace, (formValues) => {
+    addPlacePopup(formValues);
+
   });
 formAddPlace.setEventListeners();
 
@@ -136,6 +144,7 @@ const createCards = new Section(
     renderer: (item) => {
       const card = new Card(item, () => {openPopupImage.open(item)});
       const cardElement = card.createCard();
+      console.log(cardElement);
       createCards.addItem(cardElement);
     },
   },
@@ -145,22 +154,37 @@ createCards.renderItems();
 
 //Создание новой карточки
 
-
-const namePlace = document.querySelector(".popup__input_place_description");
-const linkPlace = document.querySelector(".popup__input_place_link");
-
-function addPlacePopup(event) {
-  event.preventDefault();
-  const name = namePlace.value;
-  const link = linkPlace.value;
+function addPlacePopup(formValues) {
+  /* event.preventDefault(); */
+  const name = formValues.name;
+  console.log(formValues);
+  const link = formValues.link;
   const placesDate = {
-    name,
-    link,
+    name: formValues.name,
+    link: formValues.link
+
   };
-  gridPlaces.prepend(createCards(placesDate));
+console.log(placesDate);
+  /* gridPlaces.prepend(createCards.addItem(placesDate)); */
+ /*  gridPlaces.prepend(createCards( {renderer: placesDate})); */
+  /* gridPlaces.prepend(createCards(placesDate)); */
+  /* gridPlaces.prepend(createCards( {items: placesDate})); */
+  /* gridPlaces.prepend(createCards()); */
+  /* gridPlaces.prepend(createCards.addItem({items: placesDate, renderer}, ".places")); */
+  /* gridPlaces.prepend(createCards.addItem({items: placesDate }, ".places")); */
 
   /* event.target.reset(); */
+  const card = new Card (placesDate, () => {openPopupImage.open(placesDate)});
+const cardElement = card.createCard(card);
+gridPlaces.prepend(cardElement);
 }
+/* const fff = () => {addPlacePopup(formValues)};
+console.log(fff); */
+/* const card = new Card (() => {addPlacePopup(formValues)}, () => {openPopupImage.open(item)});
+const cardElement = card.createCard(card);
+gridPlaces.prepend(cardElement); */
+
+
 
 /* formPopupAddPlace.addEventListener("submit", addPlacePopup);
 buttonClosePopupAddPlace.addEventListener("click", () => popupAddPlace.close());
@@ -197,3 +221,4 @@ const cardValidator = new FormValidator(config, cardFormElement);
 
 cardValidator.enableValidation();
 profileValidator.enableValidation();
+

@@ -1,7 +1,10 @@
 export default class UserInfo {
   constructor(name, description) {
     this._name = name;
+    console.log(this._name);
+
     this._description = description;
+    console.log(this._description);
   }
 
   getUserInfo() {
@@ -10,10 +13,14 @@ export default class UserInfo {
       description: this._description.textContent
     }
 return getUserInfo;
+
   }
 
-  setUserInfo() {
-    this._name.textContent = data.name;
-    this._description.textContent = data.description;
+
+  setUserInfo(formValues) {
+
+console.log(formValues);
+    this._name.textContent = formValues.name;
+    this._description.textContent = formValues.description;
   }
 }
