@@ -1,15 +1,30 @@
+import {
+  popupEditProfileP,
+  popupAddPlace,
+  popupImages,
+  buttonOpenEditProfile,
+  buttonOpenPopupAddPlace,
+  formPopupAddPlace,
+  nameInputeditProfile,
+  descriptionInputeditProfile,
+  authorEditProfile,
+  descriptionEditProfile,
+  profileElement,
+  cardFormElement,
+  config
+} from "../utils/constants.js";
+import initialCards from "../utils/initialCards.js";
 import Card from "./Card.js";
 import FormValidator from "./FormValidator.js";
 import Section from "./Section.js";
 import PopupWithImage from "./PopupWithImage.js";
-import initialCards from "./initialCards.js";
 import PopupWithForm from "./PopupWithForm.js";
 import UserInfo from "./UserInfo.js";
 
 import '../pages/index.css'
 
 // Редактирование профиля
-const buttonCloseEditProfile = document.querySelector(
+/* const buttonCloseEditProfile = document.querySelector(
   ".popup__close_edit-profile"
 );
 
@@ -17,7 +32,7 @@ const formInputeditProfile = document.querySelector(
   ".popup__form_edit-profile"
 );
 
-const popupList = document.querySelectorAll(".popup");
+const popupList = document.querySelectorAll(".popup"); */
 
 /* export function openPopup(popupElement) {
   popupElement.classList.add("popup_opened");
@@ -44,7 +59,7 @@ popupList.forEach(function (p) {
   });
 }); */
 
-const popupEditProfileP = document.querySelector(".popup_type_edit-profile");
+/* const popupEditProfileP = document.querySelector(".popup_type_edit-profile");
 const popupAddPlace = document.querySelector(".popup_type_places");
 const popupImages = document.querySelector(".popup_type_more");
 const buttonOpenEditProfile = document.querySelector(".profile__edit-button");
@@ -55,7 +70,7 @@ const descriptionInputeditProfile = document.querySelector(
   ".popup__input_form_description"
 );
 const authorEditProfile = document.querySelector(".profile__author");
-const descriptionEditProfile = document.querySelector(".profile__description");
+const descriptionEditProfile = document.querySelector(".profile__description"); */
 
 /* const openPopapEdit = new Popup(popupEditProfileP);
 
@@ -75,8 +90,9 @@ const formEditProfileP = new PopupWithForm(
 formEditProfileP.setEventListeners();
 
 buttonOpenEditProfile.addEventListener("click", () => {
-  nameInputeditProfile.value = authorEditProfile.textContent;
-  descriptionInputeditProfile.value = descriptionEditProfile.textContent;
+  const infoObject = userInfo.getUserInfo();
+  nameInputeditProfile.value = infoObject.name;
+  descriptionInputeditProfile.value = infoObject.description;
   profileValidator.resetValidation();
   formEditProfileP.open()});
 
@@ -124,6 +140,13 @@ document.querySelectorAll(".popup__close").forEach((button) => {
 }); */
 
 //Создание карточки
+
+function createCard(item) {
+  // тут создаете карточку и возвращаете ее
+    const card = new Card(item, () => {openPopupImage.open(item)});
+    const cardElement = card.createCard();
+    return cardElement
+}
 /* const createCards = (item) => {
   const card = new Card(item);
   const cardElement = card.createCard();
@@ -131,8 +154,8 @@ document.querySelectorAll(".popup__close").forEach((button) => {
 }; */
 
 //Для массива
-const gridPlaces = document.querySelector(".places");
-console.log(gridPlaces);
+/* const gridPlaces = document.querySelector(".places");
+console.log(gridPlaces); */
 /* initialCards.forEach((item) => {
   gridPlaces.append(createCards(item));
 }); */
@@ -142,10 +165,8 @@ const createCards = new Section(
   {
     items: initialCards,
     renderer: (item) => {
-      const card = new Card(item, () => {openPopupImage.open(item)});
-      const cardElement = card.createCard();
-      console.log(cardElement);
-      createCards.addItem(cardElement);
+
+      createCards.addItem(createCard(item));
     },
   },
   ".places"
@@ -174,9 +195,9 @@ console.log(placesDate);
   /* gridPlaces.prepend(createCards.addItem({items: placesDate }, ".places")); */
 
   /* event.target.reset(); */
-  const card = new Card (placesDate, () => {openPopupImage.open(placesDate)});
-const cardElement = card.createCard(card);
-gridPlaces.prepend(cardElement);
+/*   const card = new Card (placesDate, () => {openPopupImage.open(placesDate)});
+const cardElement = card.createCard(card); */
+createCards.addItem(createCard(placesDate));
 }
 /* const fff = () => {addPlacePopup(formValues)};
 console.log(fff); */
@@ -204,21 +225,20 @@ const buttonCloseImageImagesPopup = popupImages.querySelector(
 ); */
 
 //Для валидации
-export const config = {
+/* export const config = {
   formSelector: ".popup__form",
   inputSelector: ".popup__input",
   submitButtonSelector: ".popup__button",
   inactiveButtonClass: "popup__button_disabled",
   inputErrorClass: "popup__input_type_error",
-};
+}; */
 
-const profileElement = document.querySelector("#edit-profile");
+/* const profileElement = document.querySelector("#edit-profile"); */
 const profileValidator = new FormValidator(config, profileElement);
 
-const cardFormElement = document.querySelector("#places");
+/* const cardFormElement = document.querySelector("#places"); */
 console.log(cardFormElement);
 const cardValidator = new FormValidator(config, cardFormElement);
 
 cardValidator.enableValidation();
 profileValidator.enableValidation();
-

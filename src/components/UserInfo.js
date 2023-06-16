@@ -12,7 +12,7 @@ export default class UserInfo {
       name: this._name.textContent,
       description: this._description.textContent
     }
-return getUserInfo;
+return data;
 
   }
 
