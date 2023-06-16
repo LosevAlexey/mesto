@@ -197,7 +197,7 @@ console.log(placesDate);
   /* event.target.reset(); */
 /*   const card = new Card (placesDate, () => {openPopupImage.open(placesDate)});
 const cardElement = card.createCard(card); */
-createCards.addItem(createCard(placesDate));
+createCards.prependItem(createCard(placesDate));
 }
 /* const fff = () => {addPlacePopup(formValues)};
 console.log(fff); */
