@@ -1,9 +1,10 @@
 export default class Card {
-  constructor(data, openPopupImage) {
+  constructor(data, openPopupImage, formPopupDeletePlace) {
     this._data = data;
     this._link = data.link;
     this._name = data.name;
     this._openPopupImage = openPopupImage;
+    this._formPopupDeletePlace = formPopupDeletePlace;
   }
 
   _getTemplate() {
@@ -30,7 +31,7 @@ export default class Card {
     return this._element;
   };
 
-  _deleteCard = () => {
+  deleteCard = () => {
     this._element.remove();
   };
 
@@ -39,7 +40,7 @@ export default class Card {
   };
 
   _setEventListener() {
-    this._deleteButton.addEventListener("click", this._deleteCard);
+    this._deleteButton.addEventListener("click", this._openDeletePlace);
     this._likeButton.addEventListener("click", this._likeCard);
     this._cardImage.addEventListener("click", this._openImage);
   }
@@ -47,4 +48,9 @@ export default class Card {
   _openImage = () => {
     this._openPopupImage(this._data);
   }
+
+  _openDeletePlace = () => {
+    this._formPopupDeletePlace();
+  }
+
 }
