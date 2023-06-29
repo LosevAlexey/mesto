@@ -29,10 +29,10 @@ console.log(formValues);
 
   }
 
-  setUserAvatar(formValues) {
+  setUserAvatar(data) {
 
-    console.log(formValues);
+    console.log(data);
 
-        this._link.src = formValues.link;
+        this._link.src = data.name;
       }
 }

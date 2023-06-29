@@ -28,4 +28,4 @@ export const avatarFormElement = document.querySelector("#avatarForm");
 export const deleteButton = document.querySelector(
   "#places-template"
 );
-console.log(popupDeletePlace);
+console.log(deleteButton);

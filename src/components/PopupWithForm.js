@@ -40,6 +40,7 @@ console.log(formValues);
 
   close = () => {
     super.close();
+    console.log(this._formElement);
     this._formElement.reset();
   };
 }

@@ -1,10 +1,15 @@
 export default class Card {
-  constructor(data, openPopupImage, formPopupDeletePlace) {
+  constructor(data, api, openPopupImage, formPopupDeletePlace) {
     this._data = data;
+    /* console.log(this._data); */
     this._link = data.link;
     this._name = data.name;
     this._openPopupImage = openPopupImage;
     this._formPopupDeletePlace = formPopupDeletePlace;
+    this._id = this._data._id;
+    /* console.log(this._id); */
+    this._api = api;
+    /* console.log(this._api); */
   }
 
   _getTemplate() {
@@ -31,8 +36,14 @@ export default class Card {
     return this._element;
   };
 
-  deleteCard = () => {
-    this._element.remove();
+  deleteCard = (event) => {
+    if(this._element) {
+
+      this._element.remove();
+    event.preventDefault();
+    }
+
+///Не закрываеться
   };
 
   _likeCard = () => {
@@ -49,8 +60,15 @@ export default class Card {
     this._openPopupImage(this._data);
   }
 
-  _openDeletePlace = () => {
-    this._formPopupDeletePlace();
+  _openDeletePlace = (deleteButton) => {
+
+    this._formPopupDeletePlace(this._data);
+    console.log(this._data);
+    deleteButton = document.querySelector(
+      "#submitDelete"
+    );
+    console.log(deleteButton);
+    deleteButton.addEventListener("click", this._deleteCard);
   }
 
 }

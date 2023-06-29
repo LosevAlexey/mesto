@@ -50,9 +50,9 @@ export default class FormValidator {
 
   //переключение кнопки
   _toggleButtonValidity() {
-    console.log(this);
+ /*    console.log(this);
     console.log(this._formElement);
-    console.log(this._formElement.checkValidity());
+    console.log(this._formElement.checkValidity()); */
     if (this._formElement.checkValidity()) {
       console.log(this._formElement);
       this._enableButton();

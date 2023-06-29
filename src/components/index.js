@@ -26,19 +26,118 @@ import Section from "./Section.js";
 import PopupWithImage from "./PopupWithImage.js";
 import PopupWithForm from "./PopupWithForm.js";
 import UserInfo from "./UserInfo.js";
+import Api from "./Api.js";
 
 import '../pages/index.css'
 
-// Колбэки для форм
-/* const ccc = new Card (); */
-//удоление карточки
-const formPopupDeletePlace = new PopupWithForm(popupDeletePlace/* , (formValues) => {
+/* let dataArray = null;
+
+api.getInitialCards().then(data =>{
+  dataArray = data
+})
+console.log(dataArray); */
+
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-68',
+  headers: {
+    authorization: '880c9051-b638-4ce1-81b8-a57a4b085757',
+    'Content-Type': 'application/json'
+  }
+});
+
+const cardsPromise = api.getInitialCards().then(data => console.log(data));
+console.log(cardsPromise);
+
+const createCards = new Section(".places");
+
+api.getInitialCards().then((data)=> {
+  data.forEach((data) => {
+    const card = new Card(data, api, () => {openPopupImage.open(data)}, () => {formPopupDeletePlace.open(data)});
+    const cardElement = card.createCard();
+
+    createCards.addItem(cardElement);
+    return cardElement
+  })
+}).catch((err) => console.log(`carch: ${err}`))
+
+
+function addPlacePopup(formValues) {
+  /* event.preventDefault(); */
+  const name = formValues.name;
   console.log(formValues);
-  ccc.deleteCard()} */);
+  const link = formValues.link;
+  const placesDate = {
+    name: formValues.name,
+    link: formValues.link
 
-  formPopupDeletePlace.setEventListeners();
+  };
+console.log(placesDate);
+/* createCards.prepend(placesDate) */;
+}
+
+// Данные о пользователи
+const userID = api.getUserInfo()
+.then((userID) => {
+  userInfo.setUserInfo({
+      name: userID.name,
+      description: userID.about,
+      link: userID.avatar,
+      userId: userID,
+  });
+})
+.catch((error) =>
+  console.error(`Ошибка - ${error}`));
+
+  //Аватар
+  const Avatar = api.getUserInfo()
+.then((userID) => {
+  userInfo.setUserAvatar({
+
+      name: userID.avatar,
+
+  });
+})
+.catch((error) =>
+  console.error(`Ошибка - ${error}`));
+
+//Отправка данных на сервер
+function changeUserInfo(formValues) {
+return api.changeUserInfo(formValues.name, formValues.description)
+  .then((res) => {
+  userInfo.setUserInfo({ name: res.name, about: res.about });
+  })
+.catch((error => console.error(`Ошибка ${error}`)))
+}
+
+//Отправка аватата на сервер
+function changeAvatar(formValues) {
+  console.log(formValues);
+  return api.changeAvatar(formValues.link)
+
+    .then((res) => {
+    userInfo.setUserAvatar({ name: res.avatar });
+    })
+  .catch((error => console.error(`Ошибка ${error}`)))
+  }
 
 
+// Колбэки для форм
+//Добавление новой карточки
+function createCard(formValues) {
+  return api.addCardPlace(formValues.name, formValues.link)
+
+  .then((сard) => {
+    console.log(сard);
+   const card = new Card(сard, () => {openPopupImage.open(сard)}, () => {formPopupDeletePlace.open(сard)});
+    const cardElement = card.createCard();
+    createCards.prepend(cardElement);
+    return cardElement
+  })
+  .catch((error => console.error(`Ошибка ${error}`)))
+}
+//удоление карточки
+const formPopupDeletePlace = new PopupWithForm(popupDeletePlace, deletePlace);
+formPopupDeletePlace.setEventListeners();
 
  /*  deleteButton.addEventListener("click", () => {
 
@@ -49,10 +148,7 @@ const formPopupDeletePlace = new PopupWithForm(popupDeletePlace/* , (formValues)
 const userAvatar = new UserInfo (authorEditProfile, descriptionEditProfile, avatarEditProfile);
 
 const formEditProfileAvatar = new PopupWithForm(
-  popupEditProfileAvatar, (formValues) => {
-    console.log(formValues);
-    userAvatar.setUserAvatar(formValues);
-  });
+  popupEditProfileAvatar, changeAvatar);
   formEditProfileAvatar.setEventListeners();
 
   buttonOpenEditProfileAvatar.addEventListener("click", () => {
@@ -66,10 +162,7 @@ const formEditProfileAvatar = new PopupWithForm(
 const userInfo = new UserInfo (authorEditProfile, descriptionEditProfile, avatarEditProfile);
 
 const formEditProfile = new PopupWithForm(
-  popupEditProfile, (formValues) => {
-    console.log(formValues);
-    userInfo.setUserInfo(formValues);
-  });
+  popupEditProfile, changeUserInfo);
 formEditProfile.setEventListeners();
 
 buttonOpenEditProfile.addEventListener("click", () => {
@@ -81,10 +174,7 @@ buttonOpenEditProfile.addEventListener("click", () => {
 
   //Открытие формы добавление новой карточки
 const formAddPlace = new PopupWithForm(
-  popupAddPlace, (formValues) => {
-    addPlacePopup(formValues);
-
-  });
+  popupAddPlace, createCard);
 formAddPlace.setEventListeners();
 
 /* formPopupAddPlace.addEventListener("submit", addPlacePopup); */
@@ -94,34 +184,38 @@ buttonOpenPopupAddPlace.addEventListener("click", () => {
   cardValidator.resetValidation();
   formAddPlace.open()});
 
+  //Удоление
+  function deletePlace(card, userID) {
+api.deletePlace().then((userID) => {
+
+
+  deleteCard(card);
+})
+  .catch((error) => console.error(`Ошибка ${error}`))
+  }
+
   //Увеличение картинки
 const openPopupImage = new PopupWithImage(
   popupImages);
   openPopupImage.setEventListeners();
 
 //Создание карточки
-function createCard(item) {
+/* function createCard(item) {
     const card = new Card(item, () => {openPopupImage.open(item)}, () => {formPopupDeletePlace.open(item)});
     const cardElement = card.createCard();
     return cardElement
-}
+} */
 
-console.log(initialCards);
-const createCards = new Section(
-  {
-    items: initialCards,
-    renderer: (item) => {
+/* console.log(initialCards); */
+/* const createCards = new Section(
 
-      createCards.addItem(createCard(item));
-    },
-  },
   ".places"
-);
-createCards.renderItems();
+); */
+/* createCards.renderItems(); */
 
 //Создание новой карточки
-function addPlacePopup(formValues) {
-  /* event.preventDefault(); */
+/* function addPlacePopup(formValues) {
+  /* event.preventDefault();
   const name = formValues.name;
   console.log(formValues);
   const link = formValues.link;
@@ -131,8 +225,8 @@ function addPlacePopup(formValues) {
 
   };
 console.log(placesDate);
-createCards.prependItem(createCard(placesDate));
-}
+createCards.prepend(placesDate);
+} */
 
 //Для валидации
 const profileValidator = new FormValidator(config, profileElement);
