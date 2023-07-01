@@ -9,6 +9,7 @@
   background-color: transparent;
   cursor: pointer;
   border: none;
+  display: none;
 }
 
 .places__trash:hover {

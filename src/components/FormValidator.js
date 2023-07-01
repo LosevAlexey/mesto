@@ -10,8 +10,6 @@ export default class FormValidator {
       this._submitButtonSelector
     );
     this._inputList = this._formElement.querySelectorAll(this._inputSelector);
-    console.log(this._formElement);
-    console.log(this._submitButton);
   }
 
   _setInputValidStade(input, errorElement) {
@@ -27,7 +25,6 @@ export default class FormValidator {
 
   //проверяем инпуты
   _checkInputValidity(input) {
-    console.log(input.id);
     const errorElement = this._formElement.querySelector(`#error-${input.id}`);
     if (input.validity.valid) {
       this._setInputValidStade(input, errorElement);
@@ -37,24 +34,18 @@ export default class FormValidator {
   }
 
   _disableButton() {
-    console.log(this._submitButton, "click");
     this._submitButton.setAttribute("disabled", "");
     this._submitButton.classList.add(this._inactiveButtonClass);
   }
 
   _enableButton() {
-    console.log(this._submitButton);
     this._submitButton.removeAttribute("disabled");
     this._submitButton.classList.remove(this._inactiveButtonClass);
   }
 
   //переключение кнопки
   _toggleButtonValidity() {
- /*    console.log(this);
-    console.log(this._formElement);
-    console.log(this._formElement.checkValidity()); */
     if (this._formElement.checkValidity()) {
-      console.log(this._formElement);
       this._enableButton();
     } else {
       this._disableButton();
@@ -65,7 +56,6 @@ export default class FormValidator {
   enableValidation() {
     this._inputList.forEach((input) => {
       input.addEventListener("input", () => {
-        console.log();
         this._checkInputValidity(input);
         this._toggleButtonValidity();
       });
@@ -83,4 +73,3 @@ export default class FormValidator {
     });
   }
 }
-
