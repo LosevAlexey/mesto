@@ -5,66 +5,74 @@ export default class Api {
     this._authorization = options.headers.authorization;
   }
 
-  getInitialCards() {
-    return fetch(`${this._url}/cards`, {
+  async getInitialCards() {
+    const res = await fetch(`${this._url}/cards`, {
       headers: this._headers,
-    }).then(this._handleResponse);
+    });
+    return this._handleResponse(res);
   }
 
-  deletePlace(cardID) {
-    return fetch(`${this._url}/cards/${cardID}`, {
+  async deletePlace(cardID) {
+    const res = await fetch(`${this._url}/cards/${cardID}`, {
       method: "DELETE",
       headers: this._headers,
-    }).then(this._handleResponse);
+    });
+    return this._handleResponse(res);
   }
 
-  putLike(cardId) {
-    return fetch(`${this._url}/cards/${cardId}/likes`, {
+  async putLike(cardId) {
+    const res = await fetch(`${this._url}/cards/${cardId}/likes`, {
       method: "PUT",
       headers: this._headers,
-    }).then(this._handleResponse);
+    });
+    return this._handleResponse(res);
   }
 
-  deleteLike(cardID) {
-    return fetch(`${this._url}/cards/${cardID}/likes`, {
+  async deleteLike(cardID) {
+    const res = await fetch(`${this._url}/cards/${cardID}/likes`, {
       method: "DELETE",
       headers: this._headers,
-    }).then(this._handleResponse);
+    });
+    return this._handleResponse(res);
   }
 
-  getUserInfo() {
-    return fetch(`${this._url}/users/me`, {
+  async getUserInfo() {
+    const res = await fetch(`${this._url}/users/me`, {
       headers: this._headers,
-    }).then(this._handleResponse);
+    });
+    return this._handleResponse(res);
   }
 
-  changeUserInfo(name, description) {
-    return fetch(`${this._url}/users/me`, {
+  async changeUserInfo(name, description) {
+    const res = await fetch(`${this._url}/users/me`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
         name: name,
         about: description,
       }),
-    }).then(this._handleResponse);
+    });
+    return this._handleResponse(res);
   }
 
-  changeAvatar(link) {
-    return fetch(`${this._url}/users/me/avatar`, {
+  async changeAvatar(link) {
+    const res = await fetch(`${this._url}/users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
         avatar: link,
       }),
-    }).then(this._handleResponse);
+    });
+    return this._handleResponse(res);
   }
 
-  addCardPlace(name, link) {
-    return fetch(`${this._url}/cards`, {
+  async addCardPlace(name, link) {
+    const res = await fetch(`${this._url}/cards`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({ name, link }),
-    }).then(this._handleResponse);
+    });
+    return this._handleResponse(res);
   }
 
   _handleResponse(res) {

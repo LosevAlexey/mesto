@@ -19,7 +19,6 @@ export default class FormValidator {
 
   _setInputInvalidStade(input, errorElement) {
     input.classList.add(this._inputErrorClass);
-    console.log(errorElement);
     errorElement.textContent = input.validationMessage;
   }
 

@@ -37,14 +37,14 @@ api.getInitialCards().then(data =>{
 console.log(dataArray); */
 
 const api = new Api({
-  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-68",
+  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-70",
   headers: {
-    authorization: "880c9051-b638-4ce1-81b8-a57a4b085757",
+    authorization: "217ede58-a10f-4670-a309-daf3a817c4aa",
     "Content-Type": "application/json",
   },
 });
 
-const cardsPromise = api.getInitialCards().then((data) => console.log(data));
+/* const cardsPromise = api.getInitialCards().then((data) => console.log(data)); */
 
 const createCards = new Section({ renderer: createCard }, ".places");
 
@@ -58,15 +58,15 @@ api
   })
   .catch((err) => console.log(`carch: ${err}`));
 
-//Данные для карточки
+//Карточка
 function createCard(data, user) {
   const card = new Card(
     data,
     () => {
       openPopupImage.open(data);
     },
-    () => {
-      formPopupDeletePlace.open(data, user);
+    (card, cardId) => {
+      formPopupDeletePlace.open(card, cardId)
     },
     (cardId) => {
       let myLikes = card.myLikes();
@@ -77,7 +77,7 @@ function createCard(data, user) {
           .catch((error) => console.error(`Ошибка ${error}`));
       } else {
         api
-          .deleteLike(cardId)
+          .putLike(cardId)
           .then((res) => card.likeCard(res.likes))
           .catch((error) => console.error(`Ошибка ${error}`));
       }
@@ -102,6 +102,7 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
       link: info.avatar,
       userId: info._id, //все данные получены, отрисовываем страницу
     });
+    /* console.log(userId); */
   })
   .catch((error) => console.error(`Ошибка - ${error}`));
 
@@ -138,15 +139,20 @@ function changeAvatar(formValues) {
 }
 
 //Добавление новой карточки
+ let user;
 function addPlacePopup(formValues) {
   api
     .addCardPlace(formValues.name, formValues.link)
-    .then((сard) => {
-      createCard(сard);
+    .then((vcard) => {
+   /*  debugger; */
+      createCard(vcard, vcard.owner._id);
       formAddPlace.close();
+
     })
+   /*  console.log(card); */
     .catch((error) => console.error(`Ошибка ${error}`))
     .finally(() => formAddPlace.setButtonLoading());
+
 }
 
 const formEditProfileAvatar = new PopupWithForm(
@@ -166,8 +172,7 @@ openPopupImage.setEventListeners();
 
 const formPopupDeletePlace = new PopupWithConfirmation(
   popupDeletePlace,
-  deletePlace
-);
+  deletePlace);
 formPopupDeletePlace.setEventListeners();
 
 buttonOpenEditProfile.addEventListener("click", () => {
@@ -196,12 +201,16 @@ const userInfo = new UserInfo(
 );
 
 //Удоление
-function deletePlace({ card, userID }) {
+function deletePlace(card, cardId) {
+   console.log(card);
+   /* console.log(cardId); */
+/*   const cardId = card.cardId; */
   api
-    .deletePlace(userID)
-    .then((r) => {
-      card.deleteCard();
+    .deletePlace(cardId)
+    .then(() => {
+       card.deleteCard();
       formPopupDeletePlace.close();
+      /* console.log(); */
     })
     .catch((error) => console.error(`Ошибка ${error}`))
     .finally(() => formPopupDeletePlace.setButtonLoading());
