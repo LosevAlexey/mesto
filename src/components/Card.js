@@ -104,7 +104,7 @@ console.log(this._data.owner._id);
     this._deleteButton.addEventListener("click", () => this._formPopupDeletePlace(this, this._id));
     /* console.log(this); */
     /* console.log(this._data._id); */
-    this._likeButton.addEventListener("click", this._likeButtonClick());
+    this._likeButton.addEventListener("click", () => this._likeButtonClick());
     this._cardImage.addEventListener("click", this._openImage);
   }
 
