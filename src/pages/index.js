@@ -66,21 +66,19 @@ function createCard(data, user) {
       openPopupImage.open(data);
     },
     (card, cardId) => {
-      formPopupDeletePlace.open(card, cardId)
+      formPopupDeletePlace.open(card, cardId);
     },
     (cardId) => {
-      let myLikes = card.myLikes();
-      if (myLikes) {
-        api
-          .deleteLike(cardId)
-          .then((res) => card.likeCard(res.likes))
-          .catch((error) => console.error(`Ошибка ${error}`));
-      } else {
-        api
-          .putLike(cardId)
-          .then((res) => card.likeCard(res.likes))
-          .catch((error) => console.error(`Ошибка ${error}`));
-      }
+      api
+        .deleteLike(cardId)
+        .then((res) => card.renderLike(res))
+        .catch((error) => console.error(`Ошибка ${error}`));
+    },
+    (cardId) => {
+      api
+        .putLike(cardId)
+        .then((res) => card.renderLike(res))
+        .catch((error) => console.error(`Ошибка ${error}`));
     },
     user
   );
@@ -139,20 +137,18 @@ function changeAvatar(formValues) {
 }
 
 //Добавление новой карточки
- let user;
+let user;
 function addPlacePopup(formValues) {
   api
     .addCardPlace(formValues.name, formValues.link)
-    .then((vcard) => {
-   /*  debugger; */
-      createCard(vcard, vcard.owner._id);
+    .then((newCard) => {
+      /*  debugger; */
+      createCard(newCard, newCard.owner._id);
       formAddPlace.close();
-
     })
-   /*  console.log(card); */
+    /*  console.log(card); */
     .catch((error) => console.error(`Ошибка ${error}`))
     .finally(() => formAddPlace.setButtonLoading());
-
 }
 
 const formEditProfileAvatar = new PopupWithForm(
@@ -172,7 +168,8 @@ openPopupImage.setEventListeners();
 
 const formPopupDeletePlace = new PopupWithConfirmation(
   popupDeletePlace,
-  deletePlace);
+  deletePlace
+);
 formPopupDeletePlace.setEventListeners();
 
 buttonOpenEditProfile.addEventListener("click", () => {
@@ -202,13 +199,13 @@ const userInfo = new UserInfo(
 
 //Удоление
 function deletePlace(card, cardId) {
-   console.log(card);
-   /* console.log(cardId); */
-/*   const cardId = card.cardId; */
+  /* console.log(card); */
+  /* console.log(cardId); */
+  /*   const cardId = card.cardId; */
   api
     .deletePlace(cardId)
     .then(() => {
-       card.deleteCard();
+      card.deleteCard();
       formPopupDeletePlace.close();
       /* console.log(); */
     })
